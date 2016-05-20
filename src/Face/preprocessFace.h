@@ -1,6 +1,6 @@
 /*****************************************************************************
 *   Face Recognition using Eigenfaces or Fisherfaces
-******************************************************************************
+******************************************************************************/
 
 //////////////////////////////////////////////////////////////////////////////////////
 // preprocessFace.h, by Shervin Emami (www.shervinemami.info) on 30th May 2012.
@@ -22,8 +22,8 @@ using namespace cv;
 using namespace std;
 
 /*
-// Remove the outer border of the face, so it doesn't include the background & hair.
-// Keeps the center of the rectangle at the same place, rather than just dividing all values by 'scale'.
+ Remove the outer border of the face, so it doesn't include the background & hair.
+ Keeps the center of the rectangle at the same place, rather than just dividing all values by 'scale'.
 Rect scaleRectFromCenter(const Rect wholeFaceRect, float scale = 0.7f);
 */
 
@@ -52,4 +52,7 @@ void equalizeLeftAndRightHalves(Mat &faceImg);
 // If a face is found, it can store the rect coordinates into 'storeFaceRect' and 'storeLeftEye' & 'storeRightEye' if given,
 // and eye search regions into 'searchedLeftEye' & 'searchedRightEye' if given.
 Mat getPreprocessedFace(Mat &srcImg, int desiredFaceWidth, CascadeClassifier &faceCascade, CascadeClassifier &eyeCascade1, CascadeClassifier &eyeCascade2, bool doLeftAndRightSeparately, Rect *storeFaceRect = NULL, Point *storeLeftEye = NULL, Point *storeRightEye = NULL, Rect *searchedLeftEye = NULL, Rect *searchedRightEye = NULL);
+
+//void getPreprocessedFace2(Mat &srcImg, Mat& processedFace, Mat &leftEye, Mat &rightEye, int desiredFaceWidth, CascadeClassifier &faceCascade, CascadeClassifier &eyeCascade1, CascadeClassifier &eyeCascade2, bool doLeftAndRightSeparately, Rect *storeFaceRect = NULL, Point *storeLeftEye = NULL, Point *storeRightEye = NULL, Rect *searchedLeftEye = NULL, Rect *searchedRightEye = NULL);
+
 
