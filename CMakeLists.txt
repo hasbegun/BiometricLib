@@ -1,13 +1,22 @@
-cmake_minimum_required(VERSION 3.3)
 project(BiometricLib)
+cmake_minimum_required(VERSION 3.3)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 FIND_PACKAGE(OpenCV REQUIRED)
+message ("-- OPENCV include: " ${OpenCV_INCLUDE_DIRS})
 
-if (${OpenCV_VERSION} VERSION_LESS 2.4.11)
+if (${OpenCV_VERSION} VERSION_LESS 2.4.0)
     MESSAGE(FATAL_ERROR "OpenCV version is not compatible : ${OpenCV_VERSION}")
 endif()
+
+include_directories(
+   ${OpenCV_INCLUDE_DIRS}
+)
+
+link_directories(
+   ${OpenCV_LIBRARY_DIRS}
+)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "build")
 
@@ -29,7 +38,7 @@ set(CMAKE_INSTALL_PREFIX=/usr/local/eyedentiscan)
 
 file(GLOB IRIS_SRC src/Iris/*.h src/Iris/*.cpp)
 file(GLOB MASEK_SRC src/Masek/*.h src/Masek/*.cpp)
-file(GLOB FACE_SRC src/Face/*.h src/Face/*.cpp)
+file(GLOB FACE_SRC src/Face/*.h src/Face/*.cpp) ### disabled for cv3.1
 file(GLOB ANALYSIS_SRC src/IrisAnalysis/*.h src/IrisAnalysis/*.cpp)
 
 include_directories(${OPENCV_INCLUDE_DIR}  ${CMAKE_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR})
@@ -38,10 +47,10 @@ add_library(Iris STATIC ${IRIS_SRC} ${MASEK_SRC})
 target_link_libraries(Iris ${OpenCV_LIBS})
 
 add_library(IrisAnalysis STATIC ${ANALYSIS_SRC})
-#target_link_libraries(IrisAnalysis ${OpenCV_LIBS})
+target_link_libraries(IrisAnalysis ${OpenCV_LIBS})
 
 add_library(Face STATIC ${FACE_SRC})
 target_link_libraries(Face ${OpenCV_LIBS})
 
-install(TARGETS Iris IrisAnalysis Face DESTINATION lib)
+#install(TARGETS Iris IrisAnalysis Face DESTINATION lib)
 #install(targets BiometricLib destination lib)
