@@ -3,6 +3,11 @@ cmake_minimum_required(VERSION 3.3)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+add_definitions(-DDEBUG -g -O3 -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE)
+if(COMMAND cmake_policy)
+   cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
 FIND_PACKAGE(OpenCV REQUIRED)
 message ("-- OPENCV include: " ${OpenCV_INCLUDE_DIRS})
 
@@ -38,7 +43,7 @@ set(CMAKE_INSTALL_PREFIX=/usr/local/eyedentiscan)
 
 file(GLOB IRIS_SRC src/Iris/*.h src/Iris/*.cpp)
 file(GLOB MASEK_SRC src/Masek/*.h src/Masek/*.cpp)
-file(GLOB FACE_SRC src/Face/*.h src/Face/*.cpp) ### disabled for cv3.1
+file(GLOB FACE_SRC src/Face/*.h src/Face/*.cpp)
 file(GLOB ANALYSIS_SRC src/IrisAnalysis/*.h src/IrisAnalysis/*.cpp)
 
 include_directories(${OPENCV_INCLUDE_DIR}  ${CMAKE_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR})
