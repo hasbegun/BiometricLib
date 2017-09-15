@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
-rm -rf build CMakeLists.txt
+export OCV=/usr/local/opencv/2.4.13.3
+
+if [ -d "build" ]; then
+	echo "==================="
+	echo "remove build dir..."
+	echo "==================="
+	rm -rf build
+fi
 mkdir build
-cp CMakeLists.txt_cv2 CMakeLists.txt
 cd build
-cmake -DCMAKE_PREFIX_PATH=/usr/local/opencv/2.4.9/osx ..
-make -j8
+cmake -D OpenCV_DIR=${OCV} -DCMAKE_INSTALL_PREFIX=/usr/local/eyedentiscan ..
+make -j8 && make install
