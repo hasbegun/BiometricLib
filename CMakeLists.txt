@@ -28,10 +28,10 @@ set(CMAKE_BUILD_DIRECTORY ${CMAKE_CURRENT_DIR}/build)
 set(CMAKE_BUILD_FILES_DIRECTORY ${CMAKE_CURRENT_DIR}/build)
 set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_DIR}/bin)
 
-file(GLOB IRIS_SRC src/Iris/*.h src/Iris/*.cpp)
-file(GLOB MASEK_SRC src/Masek/*.h src/Masek/*.cpp)
-file(GLOB FACE_SRC src/Face/*.h src/Face/*.cpp)
-file(GLOB ANALYSIS_SRC src/IrisAnalysis/*.h src/IrisAnalysis/*.cpp)
+file(GLOB IRIS_SRC src/Iris/*.h src/Iris/*.hpp src/Iris/*.cpp)
+file(GLOB MASEK_SRC src/Masek/*.h src/Masek/*.hpp src/Masek/*.cpp)
+file(GLOB FACE_SRC src/Face/*.h src/Face/*.hpp src/Face/*.cpp)
+file(GLOB ANALYSIS_SRC src/IrisAnalysis/*.h src/IrisAnalysis/*.hpp src/IrisAnalysis/*.cpp)
 
 include_directories(${OPENCV_INCLUDE_DIR}  ${CMAKE_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR})
 
