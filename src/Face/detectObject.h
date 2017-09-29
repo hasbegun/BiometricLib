@@ -1,6 +1,6 @@
 /*****************************************************************************
-*   Face Recognition using Eigenfaces or Fisherfaces
-******************************************************************************/
+ *   Face Recognition using Eigenfaces or Fisherfaces
+ ******************************************************************************/
 
 //////////////////////////////////////////////////////////////////////////////////////
 // detectObject.cpp, by Shervin Emami (www.shervinemami.info) on 30th May 2012.
@@ -27,15 +27,15 @@ using namespace std;
 class DetectObject {
 public:
     DetectObject(void);
-
+    
     ~DetectObject(void);
-
+    
     static void detectLargestObject(const Mat &img, CascadeClassifier &cascade, Rect &largestObject,
                                     int scaledWidth = 320);
     static void detectManyObjects(const Mat &img, CascadeClassifier &cascade, vector<Rect> &objects, int scaledWidth = 320);
 };
 
-    // Search for just a single object in the image, such as the largest face, storing the result into 'largestObject'.
+// Search for just a single object in the image, such as the largest face, storing the result into 'largestObject'.
 // Can use Haar cascades or LBP cascades for Face Detection, or even eye, mouth, or car detection.
 // Input is temporarily shrunk to 'scaledWidth' for much faster detection, since 240 is enough to find faces.
 // Note: detectLargestObject() should be faster than detectManyObjects().

@@ -1,6 +1,6 @@
 /*****************************************************************************
-*   Face Recognition using Eigenfaces or Fisherfaces
-******************************************************************************/
+ *   Face Recognition using Eigenfaces or Fisherfaces
+ ******************************************************************************/
 
 // Easily detect objects such as faces or eyes (using LBP or Haar Cascades).
 //////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ void detectObjectsCustom(const Mat &img, CascadeClassifier &cascade, vector<Rect
         // Access the input image directly, since it is already grayscale.
         gray = img;
     }
-
+    
     // Possibly shrink the image, to run much faster.
     Mat inputImg;
     float scale = img.cols / (float)scaledWidth;
@@ -41,14 +41,14 @@ void detectObjectsCustom(const Mat &img, CascadeClassifier &cascade, vector<Rect
         // Access the input image directly, since it is already small.
         inputImg = gray;
     }
-
+    
     // Standardize the brightness and contrast to improve dark images.
     Mat equalizedImg;
     equalizeHist(inputImg, equalizedImg);
-
+    
     // Detect objects in the small grayscale image.
     cascade.detectMultiScale(equalizedImg, objects, searchScaleFactor, minNeighbors, flags, minFeatureSize);
-
+    
     // Enlarge the results if the image was temporarily shrunk before detection.
     if (img.cols > scaledWidth) {
         for (int i = 0; i < (int)objects.size(); i++ ) {
@@ -58,7 +58,7 @@ void detectObjectsCustom(const Mat &img, CascadeClassifier &cascade, vector<Rect
             objects[i].height = cvRound(objects[i].height * scale);
         }
     }
-
+    
     // Make sure the object is completely within the image, in case it was on a border.
     for (int i = 0; i < (int)objects.size(); i++ ) {
         if (objects[i].x < 0)
@@ -70,7 +70,7 @@ void detectObjectsCustom(const Mat &img, CascadeClassifier &cascade, vector<Rect
         if (objects[i].y + objects[i].height > img.rows)
             objects[i].y = img.rows - objects[i].height;
     }
-
+    
     // Return with the detected face rectangles stored in "objects".
 }
 
@@ -90,7 +90,7 @@ void DetectObject::detectLargestObject(const Mat &img, CascadeClassifier &cascad
     // How much the detections should be filtered out. This should depend on how bad false detections are to your system.
     // minNeighbors=2 means lots of good+bad detections, and minNeighbors=6 means only good detections are given but some are missed.
     int minNeighbors = 4;
-
+    
     // Perform Object or Face Detection, looking for just 1 object (the biggest in the image).
     vector<Rect> objects;
     detectObjectsCustom(img, cascade, objects, scaledWidth, flags, minFeatureSize, searchScaleFactor, minNeighbors);
@@ -112,7 +112,7 @@ void DetectObject::detectManyObjects(const Mat &img, CascadeClassifier &cascade,
 {
     // Search for many objects in the one image.
     int flags = CASCADE_SCALE_IMAGE;
-
+    
     // Smallest object size.
     Size minFeatureSize = Size(20, 20);
     // How detailed should the search be. Must be larger than 1.0.
@@ -120,7 +120,7 @@ void DetectObject::detectManyObjects(const Mat &img, CascadeClassifier &cascade,
     // How much the detections should be filtered out. This should depend on how bad false detections are to your system.
     // minNeighbors=2 means lots of good+bad detections, and minNeighbors=6 means only good detections are given but some are missed.
     int minNeighbors = 4;
-
+    
     // Perform Object or Face Detection, looking for many objects in the one image.
     detectObjectsCustom(img, cascade, objects, scaledWidth, flags, minFeatureSize, searchScaleFactor, minNeighbors);
 }

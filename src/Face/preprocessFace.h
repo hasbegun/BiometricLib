@@ -1,6 +1,6 @@
 /*****************************************************************************
-*   Face Recognition using Eigenfaces or Fisherfaces
-******************************************************************************/
+ *   Face Recognition using Eigenfaces or Fisherfaces
+ ******************************************************************************/
 
 //////////////////////////////////////////////////////////////////////////////////////
 // preprocessFace.h, by Shervin Emami (www.shervinemami.info) on 30th May 2012.
@@ -24,8 +24,8 @@ using namespace std;
 /*
  Remove the outer border of the face, so it doesn't include the background & hair.
  Keeps the center of the rectangle at the same place, rather than just dividing all values by 'scale'.
-Rect scaleRectFromCenter(const Rect wholeFaceRect, float scale = 0.7f);
-*/
+ Rect scaleRectFromCenter(const Rect wholeFaceRect, float scale = 0.7f);
+ */
 
 // Search for both eyes within the given face image. Returns the eye centers in 'leftEye' and 'rightEye',
 // or sets them to (-1,-1) if each eye was not found. Note that you can pass a 2nd eyeCascade if you
