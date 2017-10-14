@@ -28,28 +28,6 @@ set(CMAKE_BUILD_DIRECTORY ${CMAKE_CURRENT_DIR}/build)
 set(CMAKE_BUILD_FILES_DIRECTORY ${CMAKE_CURRENT_DIR}/build)
 set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_DIR}/bin)
 
-file(GLOB IRIS_SRC src/Iris/*.h src/Iris/*.hpp src/Iris/*.cpp)
-file(GLOB MASEK_SRC src/Masek/*.h src/Masek/*.hpp src/Masek/*.cpp)
-file(GLOB FACE_SRC src/Face/*.h src/Face/*.hpp src/Face/*.cpp)
-file(GLOB ANALYSIS_SRC src/IrisAnalysis/*.h src/IrisAnalysis/*.hpp src/IrisAnalysis/*.cpp)
-
-include_directories(${OPENCV_INCLUDE_DIR}  ${CMAKE_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR})
-
-add_library(IrisLib STATIC ${IRIS_SRC} ${MASEK_SRC})
-target_link_libraries(IrisLib ${OpenCV_LIBS})
-
-add_library(IrisAnalysisLib STATIC ${ANALYSIS_SRC})
-target_link_libraries(IrisAnalysisLib ${OpenCV_LIBS})
-
-add_library(FaceLib STATIC ${FACE_SRC})
-target_link_libraries(FaceLib ${OpenCV_LIBS})
-
-# Install libs and header files 
-install(TARGETS IrisLib IrisAnalysisLib FaceLib 
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-        PUBLIC_HEADER DESTINATION include)
-install(DIRECTORY src/ DESTINATION include
-        FILES_MATCHING PATTERN "*h")
-        
+add_subdirectory(src/Face)
+add_subdirectory(src/Iris)
+add_subdirectory(src/IrisAnalysis)

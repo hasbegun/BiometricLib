@@ -1,7 +1,6 @@
 /*****************************************************************************
  *   Face Recognition using Eigenfaces or Fisherfaces
- ******************************************************************************
- 
+ ******************************************************************************/
  /*
  ImageUtils
  Handy utility functions for dealing with images in OpenCV (desktop or Android).

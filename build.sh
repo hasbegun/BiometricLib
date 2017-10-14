@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
+echo "Build BiometricLib [FaceLib, IrisLib, and IrisAnalysisLib] and install to /use/local/eyedentiscan"
+
 OCV=/usr/local/opencv/2.4.13.3
-#OCV=/usr/local/opt/opencv
 BUILD_DIR="build"
 
 if [ -d ${BUILD_DIR} ]; then
