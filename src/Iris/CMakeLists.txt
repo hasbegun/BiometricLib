@@ -1,4 +1,5 @@
-set(IrisLib IrisLib_Project)
+project(IrisLib)
+cmake_minimum_required(VERSION 3.3)
 
 file(GLOB IRIS_SRC Iris/*.h Iris/*.hpp Iris/*.cpp)
 file(GLOB MASEK_SRC Masek/*.h Masek/*.hpp Masek/*.cpp)

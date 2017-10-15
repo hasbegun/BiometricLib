@@ -1,4 +1,5 @@
-set(FaceLib FaceLib_Project)
+project(FaceLib)
+cmake_minimum_required(VERSION 3.3)
 
 file(GLOB FACE_SRC *.h *.hpp *.cpp)
 
