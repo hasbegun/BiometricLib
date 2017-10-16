@@ -1,7 +1,3 @@
-/*****************************************************************************
- *   Face Recognition using Eigenfaces or Fisherfaces
- ******************************************************************************/
-
 //////////////////////////////////////////////////////////////////////////////////////
 // preprocessFace.h, by Shervin Emami (www.shervinemami.info) on 30th May 2012.
 // Easily preprocess face images, for face recognition.
@@ -22,10 +18,10 @@ using namespace cv;
 using namespace std;
 
 /*
- Remove the outer border of the face, so it doesn't include the background & hair.
- Keeps the center of the rectangle at the same place, rather than just dividing all values by 'scale'.
- Rect scaleRectFromCenter(const Rect wholeFaceRect, float scale = 0.7f);
- */
+// Remove the outer border of the face, so it doesn't include the background & hair.
+// Keeps the center of the rectangle at the same place, rather than just dividing all values by 'scale'.
+Rect scaleRectFromCenter(const Rect wholeFaceRect, float scale = 0.7f);
+*/
 
 // Search for both eyes within the given face image. Returns the eye centers in 'leftEye' and 'rightEye',
 // or sets them to (-1,-1) if each eye was not found. Note that you can pass a 2nd eyeCascade if you
@@ -33,7 +29,8 @@ using namespace std;
 // as well as an eyeglasses detector, or a left eye detector as well as a right eye detector.
 // Or if you don't want a 2nd eye detection, just pass an uninitialized CascadeClassifier.
 // Can also store the searched left & right eye regions if desired.
-void detectBothEyes(const Mat &face, CascadeClassifier &eyeCascade1, CascadeClassifier &eyeCascade2, Point &leftEye, Point &rightEye, Rect *searchedLeftEye = NULL, Rect *searchedRightEye = NULL);
+void detectBothEyes(const Mat &face, CascadeClassifier &eyeCascade1, CascadeClassifier &eyeCascade2,
+                    Point &leftEye, Point &rightEye, Rect *searchedLeftEye = NULL, Rect *searchedRightEye = NULL);
 
 // Histogram Equalizae seperately for the left and right sides of the face,
 // so that if there is a strong light on one side but not the other, it will still look OK.
@@ -51,8 +48,9 @@ void equalizeLeftAndRightHalves(Mat &faceImg);
 // Returns either a preprocessed face square image or NULL (ie: couldn't detect the face and 2 eyes).
 // If a face is found, it can store the rect coordinates into 'storeFaceRect' and 'storeLeftEye' & 'storeRightEye' if given,
 // and eye search regions into 'searchedLeftEye' & 'searchedRightEye' if given.
-Mat getPreprocessedFace(Mat &srcImg, int desiredFaceWidth, CascadeClassifier &faceCascade, CascadeClassifier &eyeCascade1, CascadeClassifier &eyeCascade2, bool doLeftAndRightSeparately, Rect *storeFaceRect = NULL, Point *storeLeftEye = NULL, Point *storeRightEye = NULL, Rect *searchedLeftEye = NULL, Rect *searchedRightEye = NULL);
-
-//void getPreprocessedFace2(Mat &srcImg, Mat& processedFace, Mat &leftEye, Mat &rightEye, int desiredFaceWidth, CascadeClassifier &faceCascade, CascadeClassifier &eyeCascade1, CascadeClassifier &eyeCascade2, bool doLeftAndRightSeparately, Rect *storeFaceRect = NULL, Point *storeLeftEye = NULL, Point *storeRightEye = NULL, Rect *searchedLeftEye = NULL, Rect *searchedRightEye = NULL);
-
-
+Mat getPreprocessedFace(Mat &srcImg, int desiredFaceWidth, CascadeClassifier &faceCascade,
+                        CascadeClassifier &eyeCascade1, CascadeClassifier &eyeCascade2,
+                        bool doLeftAndRightSeparately,
+                        Rect *storeFaceRect = NULL, Point *storeLeftEye = NULL,
+                        Point *storeRightEye = NULL, Rect *searchedLeftEye = NULL,
+                        Rect *searchedRightEye = NULL);
