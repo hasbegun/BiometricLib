@@ -4,6 +4,16 @@ cmake_minimum_required(VERSION 3.3)
 file(GLOB IRIS_SRC Iris/*.h Iris/*.hpp Iris/*.cpp)
 file(GLOB MASEK_SRC Masek/*.h Masek/*.hpp Masek/*.cpp)
 
+# find opencv pkg with specific version and path.
+# otherwise it will find the pkg at the PATH usuallo /usr/local/lib
+find_package(OpenCV 2.4.13.3 REQUIRED PATHS /usr/local/opencv/2.4.13.3)
+message( ${OpenCV_VERSION} )
+message("-- OPENCV include: " ${OpenCV_INCLUDE_DIRS})
+
+if (${OpenCV_VERSION} VERSION_LESS 2.4.9)
+    message(FATAL_ERROR "OpenCV version is not compatible : ${OpenCV_VERSION}")
+endif()
+
 include_directories(
    ${OpenCV_INCLUDE_DIRS}
 )
