@@ -10,7 +10,7 @@ find_package(OpenCV 2.4.13.6 REQUIRED PATHS /usr/local/opencv/2.4.13.6)
 message( ${OpenCV_VERSION} )
 message("-- OPENCV include: " ${OpenCV_INCLUDE_DIRS})
 
-if (${OpenCV_VERSION} VERSION_LESS 2.4.9)
+if (${OpenCV_VERSION} VERSION_LESS 2.4.13.6)
     message(FATAL_ERROR "OpenCV version is not compatible : ${OpenCV_VERSION}")
 endif()
 
