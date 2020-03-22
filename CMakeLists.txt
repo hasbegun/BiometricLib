@@ -9,6 +9,6 @@ set(CMAKE_BUILD_DIRECTORY ${CMAKE_CURRENT_DIR}/build)
 set(CMAKE_BUILD_FILES_DIRECTORY ${CMAKE_CURRENT_DIR}/build)
 set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_DIR}/bin)
 
-add_subdirectory(src/Face)
+# add_subdirectory(src/Face)
 add_subdirectory(src/Iris)
 add_subdirectory(src/IrisAnalysis)

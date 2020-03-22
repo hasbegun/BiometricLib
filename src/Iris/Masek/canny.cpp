@@ -40,8 +40,8 @@
 
 function [gradient, or] = canny(im, sigma, scaling, vert, horz)*/
 
-//#include <malloc.h>
-#include <malloc/malloc.h>
+#include <malloc.h>
+// #include <malloc/malloc.h>
 #include "Masek.h"
 #include "math.h"
 

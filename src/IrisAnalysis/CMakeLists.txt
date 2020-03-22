@@ -6,7 +6,7 @@ set(IRISLIB_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../Iris)
 
 # find opencv pkg with specific version and path.
 # otherwise it will find the pkg at the PATH usuallo /usr/local/lib
-find_package(OpenCV 2.4.13.3 REQUIRED PATHS /usr/local/opencv/2.4.13.3)
+find_package(OpenCV 2.4.13 REQUIRED)
 message( ${OpenCV_VERSION} )
 message("-- OPENCV include: " ${OpenCV_INCLUDE_DIRS})
 
