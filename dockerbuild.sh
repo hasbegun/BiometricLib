@@ -1,1 +1,1 @@
-docker build -t irislib .
+docker build -t iris .

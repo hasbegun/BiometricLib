@@ -14,4 +14,4 @@ fi
 mkdir ${BUILD_DIR}
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr/local/alphablocks ..
-make -j8 && make install
+make -j8 && sudo make install
