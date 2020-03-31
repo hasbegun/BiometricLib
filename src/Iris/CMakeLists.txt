@@ -5,30 +5,21 @@ file(GLOB IRIS_SRC Iris/*.h Iris/*.hpp Iris/*.cpp)
 file(GLOB MASEK_SRC Masek/*.h Masek/*.hpp Masek/*.cpp)
 
 # find opencv pkg with specific version and path.
-# otherwise it will find the pkg at the PATH usuallo /usr/local/lib
+# otherwise it will find the pkg at the PATH /usr/local/lib
 # find_package(OpenCV 2.4.13.6 REQUIRED PATHS /usr/local/opencv/2.4.13.6)
 find_package(OpenCV 2.4.13 REQUIRED)
 message( ${OpenCV_VERSION} )
 message("-- OPENCV include: " ${OpenCV_INCLUDE_DIRS})
 
-if (${OpenCV_VERSION} VERSION_LESS 2.4.13.6)
+if (${OpenCV_VERSION} VERSION_LESS 2.4.13)
     message(FATAL_ERROR "OpenCV version is not compatible : ${OpenCV_VERSION}")
 endif()
 
-include_directories(
-   ${OpenCV_INCLUDE_DIRS}
-)
-
-link_directories(
-   ${OpenCV_LIBRARY_DIRS}
-)
-
-include_directories(${OPENCV_INCLUDE_DIR}
-                    ${CMAKE_SOURCE_DIR}/Iris
+include_directories(${CMAKE_SOURCE_DIR}/Iris
                     ${CMAKE_SOURCE_DIR}/Masek
                     ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(IrisLib STATIC ${IRIS_SRC} ${MASEK_SRC})
+add_library(${PROJECT_NAME} STATIC ${IRIS_SRC} ${MASEK_SRC})
 target_link_libraries(IrisLib ${OpenCV_LIBS})
 
 # Install libs and header files

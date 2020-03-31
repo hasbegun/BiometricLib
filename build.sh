@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 echo "Build BiometricLib [FaceLib, IrisLib, and IrisAnalysisLib] and install to /use/local/alphablocks"
-
-# OCV=/usr/local/opencv/2.4.13.6
 BUILD_DIR="build"
 
 if [ -d ${BUILD_DIR} ]; then
