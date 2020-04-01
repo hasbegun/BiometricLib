@@ -1,4 +1,4 @@
-FROM u18-ocv3
+FROM u18-ocv3-qt5
 
 WORKDIR /home/developer/projects
 
