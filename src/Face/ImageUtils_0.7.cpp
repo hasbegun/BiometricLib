@@ -10,10 +10,7 @@
 
 #include "ImageUtils.h"
 
-
-
 using namespace std;
-
 
 // Print the label and then some text info about the IplImage properties, to LOG() for easy debugging.
 void printImageInfo(const IplImage *image, const char *label)

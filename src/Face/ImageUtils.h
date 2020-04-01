@@ -1,4 +1,3 @@
-
 /*
  * ImageUtils
  *      Handy utility functions for dealing with images in OpenCV (desktop or Android).
@@ -15,7 +14,6 @@
 #ifdef USE_HIGHGUI
     #include "opencv2/highgui/highgui.hpp"
 #endif
-
 
 #include <stdio.h>
 #if defined WIN32 || defined _WIN32
@@ -55,12 +53,10 @@
     #endif
 #endif
 
-
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
 
 // Allow 'UCHAR' variables in both C and C++ code.
 #ifndef UCHAR
@@ -80,8 +76,6 @@ extern "C"
 #else
     #define DEFAULT(val)
 #endif
-
-
 
 //------------------------------------------------------------------------------
 // Timer functions
@@ -108,7 +102,6 @@ extern "C"
 #define SHOW_TOTAL_TIMING(s, msg)   LOG("%s total:\t %dms\t (ave=%dms min=%dms max=%dms, across %d runs).", msg, cvRound(GET_TOTAL_TIMING(s)), cvRound(GET_AVERAGE_TIMING(s)), cvRound(GET_MIN_TIMING(s)), cvRound(GET_MAX_TIMING(s)), GET_TIMING_COUNT(s) )
 #define AVERAGE_TIMING(s)           SHOW_TIMING(s, #s)
 #define TOTAL_TIMING(s)             do {    SHOW_TOTAL_TIMING(s, #s); CLEAR_AVERAGE_TIMING(s);     } while (0)
-
 
 // Convert a float number to an int by rounding to nearest int using a certain method.
 // Replace the code with the fastest method detected by 'testTiming_FloatConversion()'.
@@ -345,11 +338,7 @@ void printLine(const CvPoint ptA, const CvPoint ptB, const char *label DEFAULT(0
 // Just for debugging float images & matrices.
 void printDataRange(const CvArr *src, const char *msg);
 
-
-
 #if defined (__cplusplus)
 }
 #endif
-
-
 #endif /* IMAGEUTILS_H_ */

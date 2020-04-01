@@ -5,7 +5,7 @@ file(GLOB FACE_SRC *.h *.hpp *.cpp)
 
 # find opencv pkg with specific version and path.
 # otherwise it will find the pkg at the PATH usuallo /usr/local/lib
-find_package(OpenCV 3 REQUIRED PATH /usr/local/opencv3)
+find_package(OpenCV 3 REQUIRED)
 message( ${OpenCV_VERSION} )
 message("-- OPENCV include: " ${OpenCV_INCLUDE_DIRS})
 
@@ -32,11 +32,11 @@ endif()
 # include_directories(${OPENCV_INCLUDE_DIR} ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(FaceLib STATIC ${FACE_SRC})
+add_library(${PROJECT_NAME}  STATIC ${FACE_SRC})
 # target_link_libraries(FaceLib ${OpenCV_LIBS})
 
 # Install libs and header files
-install(TARGETS FaceLib
+install(TARGETS ${PROJECT_NAME}
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
