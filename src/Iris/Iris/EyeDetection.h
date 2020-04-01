@@ -49,7 +49,6 @@ public:
   */
   virtual ~EyeDetection();
 
-
   /**
   * Detects both of left and right eye using Haar features.
   *
@@ -70,7 +69,6 @@ public:
   *					both left and right, or \c NULL in case nothing was found
   */
   RESULT* detect(IplImage* img, int scales, int val, int w, int h);
-
 
 private:
   // Temporary space for calculations
