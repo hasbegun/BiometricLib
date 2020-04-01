@@ -20,6 +20,6 @@
     
     This runs a docker image "iris_dev" and mounts src dirs to
     /home/developer/projects
-        BiometricLib
-        face_recognition
-        IrisAnalysis
+        BiometricLib \s
+        face_recognition \s
+        IrisAnalysis \s
