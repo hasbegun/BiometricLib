@@ -9,7 +9,7 @@
  * Utility methods to create iris templates.
  */
 class CreateTemplate
-{	
+{
 public:
 	/**
 	* Create an iris template for matching and non-matching.
@@ -23,10 +23,10 @@ public:
 	*					- \c 1 = classic still image
 	*					- \c 2 = video captured at a distance (distant-videos)
 	*/
-	static void newCreateIrisTemplate(const char *fileName,										
-										int **template1, int **mask1, 
-										int *width, int *height, 
-										int dataType);
+	static void newCreateIrisTemplate(const char *fileName,
+									  int **template1, int **mask1,
+									  int *width, int *height,
+									  int dataType);
 
 };
 

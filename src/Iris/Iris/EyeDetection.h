@@ -13,14 +13,14 @@
 /**
  * Eye region detection class.
  */
-class EyeDetection 
+class EyeDetection
 {
-public: 
+public:
 
  /**
-  * \struct Type to return the detection result  
+  * \struct Type to return the detection result
   */
-  typedef struct 
+  typedef struct
   {
 	/// The rectangle of left and right eye, and eye pair
     CvRect leftRect, rightRect, bothRect;
@@ -29,7 +29,7 @@ public:
 	IplImage* leftImg, *rightImg, *bothImg;
   } RESULT; //Returns multiple values
 
-  typedef struct 
+  typedef struct
   {
 	CvPoint prevCenter;
 	int prevRadius;
@@ -50,7 +50,7 @@ public:
   virtual ~EyeDetection();
 
 
-  /** 
+  /**
   * Detects both of left and right eye using Haar features.
   *
   * Valid \c scales values:
@@ -58,7 +58,7 @@ public:
   * - \c 2 = 1024x1024px
   * - \c 4 = 2048x2048px (MBGC dataset)
   *
-  * @Note Depending on which cascade is used, both eyes as one region or only 
+  * @Note Depending on which cascade is used, both eyes as one region or only
   *    one eye region can be detected
   *
   * @param img		Input image
@@ -66,19 +66,19 @@ public:
   * @param val		Adjust the rectangle size
   * @param w		Set the minimum width size of the two eye regions
   * @param h		Set the minimum height size of the two eye regions
-  * @return			Returns the detected eye region (info, image) for left, right, 
-  *					both left and right, or \c NULL in case nothing was found 
+  * @return			Returns the detected eye region (info, image) for left, right,
+  *					both left and right, or \c NULL in case nothing was found
   */
-  RESULT* detect(IplImage* img, int scales, int val, int w, int h); 
-  
+  RESULT* detect(IplImage* img, int scales, int val, int w, int h);
+
 
 private:
   // Temporary space for calculations
   CvMemStorage* storage;
   // A new Haar classifier
-  CvHaarClassifierCascade* cascade;     
+  CvHaarClassifierCascade* cascade;
   // To save the results
-  RESULT result;  
+  RESULT result;
 };
 
 #endif // !EYE_DETECTION_H

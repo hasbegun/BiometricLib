@@ -13,7 +13,7 @@ static int maxFunc(int orgVal, int newVal)
   return (orgVal < newVal) ? newVal : orgVal;
 }
 
-static int minFunc(int orgVal, int newVal) 
+static int minFunc(int orgVal, int newVal)
 {
   return (orgVal >newVal) ? newVal : orgVal;
 }
@@ -28,7 +28,7 @@ FindEyelidCurve::~FindEyelidCurve(void)
 }
 
 // Eyelid curves
-void FindEyelidCurve::findCurves(IplImage* iplImg, 
+void FindEyelidCurve::findCurves(IplImage* iplImg,
                                  int xPupil, int yPupil, int rPupil,
                                  int xIris,  int yIris,  int rIris,
                                  double* x,  double* ty, double* by)
@@ -37,7 +37,7 @@ void FindEyelidCurve::findCurves(IplImage* iplImg,
 	// Convert IplImage to IMAGE type
 	ImageUtility * imgUtil = NULL;
 	Masek::IMAGE* eyeImage = imgUtil->convertIplToImage(iplImg);
-	
+
 	// Detect the top and bottom eyelid points
     int sX1 = 0, sX2 = 0, sX3 = 0, stY1 = 0, sbY2 = 0;
 	//begining/ending curve points: can be adjusted depending on your purpose
@@ -87,7 +87,7 @@ void FindEyelidCurve::findCurves(IplImage* iplImg,
 	// Left/right top y minimum
 	int minltY = min, minrtY = min;
 	// Left/right bottom y maxium
-	int maxlbY = max, maxrbY = max;	
+	int maxlbY = max, maxrbY = max;
 	// Left/right bottom y minimum
 	int minlbY = min, minrbY = min;
 
@@ -112,8 +112,8 @@ void FindEyelidCurve::findCurves(IplImage* iplImg,
 	if(minltY < 1 || minltY > eyeImage->hsize[0]-1)
 		minltY = imgUtil->getValue(stY1+1, yIris);
 	if(minrtY < 1 || minrtY > eyeImage->hsize[0]-1)
- 		minrtY = imgUtil->getValue(stY1+1, yIris);	
-	
+ 		minrtY = imgUtil->getValue(stY1+1, yIris);
+
     if(maxltY  < 1 || maxltY > eyeImage->hsize[0]-1)
 		maxltY = imgUtil->getValue(stY1+1, yIris);
     if(maxrtY < 1 || maxrtY > eyeImage->hsize[0]-1)
@@ -138,7 +138,7 @@ void FindEyelidCurve::findCurves(IplImage* iplImg,
 	int center_t_Y = cv::max(minltY, minrtY);
 	// Bottom: Select the minimum y point between the left and right minimum points of the line
 	int center_b_Y = cv::min(maxlbY, maxrbY);
-	
+
 	if(center_t_Y < maxctY)
 		center_t_Y = maxctY;
 	if(center_b_Y > mincbY)
@@ -150,10 +150,10 @@ void FindEyelidCurve::findCurves(IplImage* iplImg,
 	if(minlbY > center_b_Y)
 		minlbY = center_b_Y;
 	if(minrbY > center_b_Y)
-		minrbY = center_b_Y;  
+		minrbY = center_b_Y;
 
 	int endX = imgUtil->getValue(xIris+rIris+extra, eyeImage->hsize[1]);
-	
+
     int adj = 2; //use for adjustment: pixel unit
 	x[0] = (double)sX1;
 	x[1] = (double)xIris;
@@ -162,7 +162,7 @@ void FindEyelidCurve::findCurves(IplImage* iplImg,
     ty[0] = (double)maxltY + adj;
     ty[1] = (double)center_t_Y + adj;
     ty[2] = (double)maxrtY + adj;
-	
+
     by[0] = (double)minlbY - adj;
     by[1] = (double)center_b_Y - adj;
     by[2] = (double)minrbY - adj;
@@ -186,17 +186,16 @@ void FindEyelidCurve::findCurves(IplImage* iplImg,
 }
 
 // Eyelid lines
-void FindEyelidCurve::findLines(IplImage* iplImg, 
-									int xPupil, int yPupil, int rPupil, 
+void FindEyelidCurve::findLines(IplImage* iplImg,
+									int xPupil, int yPupil, int rPupil,
                                     int xIris,  int yIris,  int rIris,
-                                    double* x,  double* ty, double* by)
-{
+                                    double* x,  double* ty, double* by) {
     // xPupil is not ussed. Need to check.
 
     // Convert IplImage to IMAGE type
 	ImageUtility * imgUtil = NULL;
 	Masek::IMAGE* eyeImage = imgUtil->convertIplToImage(iplImg);
-	
+
 	// Detect the top and bottom eyelid points
     int sX1 = 0, stY1 = 0, sbY2 = 0;
 
@@ -210,9 +209,9 @@ void FindEyelidCurve::findLines(IplImage* iplImg,
 	int hBottom = (yIris+rIris)-sbY2;
     int endY = imgUtil->getValue(yIris+rIris, eyeImage->hsize[0] - 1);
 
-	Masek::IMAGE* topEyelid = imgUtil->setROIImage_C(eyeImage, sX1, stY1, rIris*2, rIris);	
+	Masek::IMAGE* topEyelid = imgUtil->setROIImage_C(eyeImage, sX1, stY1, rIris*2, rIris);
 	Masek::IMAGE* bottomEyelid = imgUtil->setROIImage_C(eyeImage, sX1, sbY2, rIris*2, hBottom);
-	
+
 	int min = -1;
     int max = eyeImage->hsize[0] + 1;
 	int maxtY = max;
@@ -229,7 +228,7 @@ void FindEyelidCurve::findLines(IplImage* iplImg,
 		maxtY = imgUtil->getValue(stY1+1, yIris);
 
     if(minbY < 1 || minbY  > eyeImage->hsize[0] - 1)
-		minbY = endY;	
+		minbY = endY;
     if(maxbY < 1 || maxbY > eyeImage->hsize[0] - 1)
 		maxbY = endY;
 
@@ -243,11 +242,11 @@ void FindEyelidCurve::findLines(IplImage* iplImg,
 	ty[0] = (double)maxtY+adj;
 	ty[1] = (double)maxtY+adj;
 	ty[2] = (double)maxtY+adj;
-	
+
   	by[0] = (double)minbY-adj;
 	by[1] = (double)minbY-adj;
-	by[2] = (double)minbY-adj;	
-	
+	by[2] = (double)minbY-adj;
+
 	delete imgUtil;
 	free(eyeImage->data);
 	free(eyeImage);
@@ -257,16 +256,14 @@ void FindEyelidCurve::findLines(IplImage* iplImg,
 	free(bottomEyelid);
 }
 
-
 void FindEyelidCurve::calcCurvePoints(IplImage *img, double *x, double *y, int *destY)
 // img is not used. need to check.
 {
     int idx     = 0;
     int startX  = (int)x[0];
     int endX    = (int)x[2];
-	
-    for(int i=startX; i<=endX; i++)
-	{
+
+    for(int i=startX; i<=endX; i++) {
         destY[idx] = (int)LagrangeInterpolation(x, y, 3, i);    //2nd order polynomial
 
         if(destY[idx] < 1)
@@ -277,13 +274,11 @@ void FindEyelidCurve::calcCurvePoints(IplImage *img, double *x, double *y, int *
 }
 
 // Lagrange Interpolation
-double FindEyelidCurve::LagrangeInterpolation(double *x, double *f, int n, double xbar)
-{
+double FindEyelidCurve::LagrangeInterpolation(double *x, double *f, int n, double xbar) {
     double sum = 0.0;
     double l;
 
-    for (int i=0; i<=n-1; i++)
-    {
+    for (int i=0; i<=n-1; i++) {
         l = 1.0;
         for (int j=0; j<=n-1; j++)
              if (j != i)
@@ -300,50 +295,42 @@ void FindEyelidCurve::calcLinePoints(IplImage* img, double* x, double* y, int* d
     int idx       =0;
     int startX  = (int)x[0];
     int endX    = (int)x[2];
-	
-    for(int i=startX; i<=endX; i++)
-	{
+
+    for(int i=startX; i<=endX; i++) {
         destY[idx] = (int)y[0];
         ++idx;
 	}
 }
 
-void FindEyelidCurve::maskOutNoise(Masek::IMAGE* image, 
-								   double *x, int* ty, int *by)
-{	
+void FindEyelidCurve::maskOutNoise(Masek::IMAGE* image,
+								   double *x, int* ty, int *by) {
     int j       = 0;
     int startX  = (int)x[0];
     int endX    = (int)x[2];
 
-    for(int i=startX; i<endX; i++)
-    {
-        for(int a=0; a<=ty[j]; a++)
-        {
+    for(int i=startX; i<endX; i++) {
+        for(int a=0; a<=ty[j]; a++) {
             int index = i + a * image->hsize[1];
-            if ((index >= 0) && (index < image->hsize[0] * image->hsize[1]))
-            {
+            if ((index >= 0) && (index < image->hsize[0] * image->hsize[1])) {
                 image->data[index] = (unsigned char)sqrt((double)-1);
             }
         }
 
-        for(int b = image->hsize[0]-1; b >= by[j]; b--)//image->hsize[0]-1: important
+        for(int b = image->hsize[0]-1; b >= by[j]; b--)	//image->hsize[0]-1: important
         {
             int index  = i + b * image->hsize[1];
-            if ((index >= 0) && (index < image->hsize[0] * image->hsize[1]))
-            {
+            if ((index >= 0) && (index < image->hsize[0] * image->hsize[1])) {
                 image->data[index] = (unsigned char)sqrt((double)-1);
             }
         }
-
         j++;
     }
 }
 
-
 // Find the eyelid points
-void FindEyelidCurve::getEyelidPoint(Masek::IMAGE* image, 
+void FindEyelidCurve::getEyelidPoint(Masek::IMAGE* image,
 									 Masek::IMAGE* eyeImage,
-									 int& min, int& max, 
+									 int& min, int& max,
 								     int originX, int originY)
 // eyeImg is not used. need to check.
 {
@@ -351,35 +338,31 @@ void FindEyelidCurve::getEyelidPoint(Masek::IMAGE* image,
     Masek* masek = NULL;
     int lineCount;
     double *lines;
-    int *xl, *yl;    
+    int *xl, *yl;
 	int tMax = min;
 	int tMin = max;
 
     // Find the top eyelid
-    if (image->hsize[0]>1 && image->hsize[1]>1)
-	{
+    if (image->hsize[0]>1 && image->hsize[1]>1) {
        lineCount = masek->findline(image, &lines);
-       
+
     } else {
 	    lineCount = 0;
 	}
 
-    if (lineCount > 0)
-    {
+    if (lineCount > 0) {
 	    xl = (int*)malloc(sizeof(int)*image->hsize[1]);
 	    yl = (int*)malloc(sizeof(int)*image->hsize[1]);
 
         masek->linescoords(lines, image->hsize[0], image->hsize[1], xl, yl);
-        
-	    for (int i = 0; i<image->hsize[1]; i++)
-	    {
+
+	    for (int i = 0; i<image->hsize[1]; i++) {
 			xl[i] = xl[i]+originX;
-		    yl[i] = yl[i]+originY;		
-		   	
+		    yl[i] = yl[i]+originY;
+
 			tMin = minFunc(tMin, yl[i]);
 			tMax = maxFunc(tMax, yl[i]);
 	    }
-
 	    free (xl);
 	    free (yl);
 	    free(lines);
@@ -389,4 +372,3 @@ void FindEyelidCurve::getEyelidPoint(Masek::IMAGE* image,
 	max = tMax;
     delete masek;
 }
-

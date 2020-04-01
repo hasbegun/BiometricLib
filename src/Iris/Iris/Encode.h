@@ -7,10 +7,10 @@
 ** Computer Vision Research Laboratory
 ** Department of Computer Science & Engineering, U. of Notre Dame
 **
-** Author: Original source code by Libor Masek (masekl01@csse.uwa.edu.au), 
+** Author: Original source code by Libor Masek (masekl01@csse.uwa.edu.au),
 ** School of Computer Science & Software Engineering
 ** The University of Western Australia, November 2003
-** See "Terms and Conditions" at 
+** See "Terms and Conditions" at
 ** http://www.csse.uwa.edu.au/~pk/studentprojects/libor/sourcecode.html
 **************************************************************/
 #ifndef ENCODE_LEE_H
@@ -26,7 +26,7 @@ class Encode
 {
 	public:
 	/**
-	* Encode the iris pattern using Gabor filter and generate the noise mask using the masking scheme 
+	* Encode the iris pattern using Gabor filter and generate the noise mask using the masking scheme
 	*
 	* @param polar_array	Normalized iris region
     * @param noise_array	Corresponding normalized noise region map
@@ -41,23 +41,23 @@ class Encode
 	* @param magLowerThresRate Masking bits based on the low threshold Magnitude value
 	* @param magUpperThresRate Masking bits based on the high threshold Magnitude value
 	*/
-    static void newEncode(Masek::filter *polar_array,
-                   Masek::IMAGE *noise_array,
-				   int nscales, 
-				   int minWaveLength, 
-				   int mult, 
-				   double sigmaOnf, 
-				   int **_template, 
-                   int **mask,
-                   int *width,
-				   int *height,
-				   float magLowerThresRate,
-				   float magUpperThresRate);
+    static void newEncode(
+		Masek::filter *polar_array,
+		Masek::IMAGE *noise_array,
+		int nscales,
+		int minWaveLength,
+		int mult,
+		double sigmaOnf,
+		int **_template,
+		int **mask,
+		int *width,
+		int *height,
+		float magLowerThresRate,
+		float magUpperThresRate);
 
-	
 private:
 	/**
-	* Sort complex values and select the threshold to mask noise. 
+	* Sort complex values and select the threshold to mask noise.
 	*
 	* @param E		Input real and imagery coefficients ([h][w] in size)
     * @param w		Width
@@ -110,16 +110,16 @@ private:
 
 	/**
 	* Shift zero-frequency component to center of spectrum.
-    * For vectors, FFTSHIFT(X) swaps the left and right halves of X.  
-	* For matrices, FFTSHIFT(X) swaps the first and third quadrants 
-	* and the second and fourth quadrants.  
+    * For vectors, FFTSHIFT(X) swaps the left and right halves of X.
+	* For matrices, FFTSHIFT(X) swaps the first and third quadrants
+	* and the second and fourth quadrants.
 	* For N-D arrays, FFTSHIFT(X) swaps "half-spaces" of X along each dimension.
     * FFTSHIFT(X,DIM) applies the FFTSHIFT operation along the dimension DIM.
 	* FFTSHIFT is useful for visualizing the Fourier transform with
     * the zero-frequency component in the middle of the spectrum.
 	* See also IFFTSHIFT, FFT
 	* Copyright 1984-2000 The MathWorks, Inc.
-	* $Revision: 5.8$  $Date: 2000/06/14 21:10:10 
+	* $Revision: 5.8$  $Date: 2000/06/14 21:10:10
 	*/
 	static void fftshift(double *x, int numDims, int size[]);
 	static void dft(Masek::Complex *x, Masek::Complex *y, int N);
@@ -141,13 +141,14 @@ private:
 	* @param EOh			(OUT) Height
 	* @param EOw			(OUT) Width
 	*/
-    static void gaborconvolve(Masek::filter *im,
-		int nscale, 
-		int minWaveLength, 
-		int mult, 
-		double sigmaOnf, 
-		Masek::Complex*** EO, 
-		double** filtersum, 
+    static void gaborconvolve(
+		Masek::filter *im,
+		int nscale,
+		int minWaveLength,
+		int mult,
+		double sigmaOnf,
+		Masek::Complex*** EO,
+		double** filtersum,
 		int *EOh, int *EOw);
 };
 #endif // !ENCODE_LEE_H

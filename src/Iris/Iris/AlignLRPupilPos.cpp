@@ -10,8 +10,7 @@ AlignLRPupilPos::~AlignLRPupilPos(void)
 }
 
 void AlignLRPupilPos::alignDegreeDiff(IplImage* img, int rIrisMax, int* circle1, int* circle2,
-                                      IplImage*& lImg, IplImage*& rImg)
-{
+                                      IplImage*& lImg, IplImage*& rImg) {
     // Initialize...
     int px1 = 0, py1 = 0, r1 = 0;
     int px2 = 0, py2 = 0, r2 = 0;
@@ -57,22 +56,19 @@ void AlignLRPupilPos::alignDegreeDiff(IplImage* img, int rIrisMax, int* circle1,
     delete imgUtil;
 }
 
-double AlignLRPupilPos::getAngle(int px1, int py1, int px2, int py2)
-{
+double AlignLRPupilPos::getAngle(int px1, int py1, int px2, int py2) {
     int a = 0, b = 0;
     a = abs(px2 - px1);
     b = abs(py2 - py1);
     double c = sqrt((double)(a*a + b*b)) ;
     double angle = acos(a/c)*(180/PI);
     if(0 > (py1 - py2))
-    {
         angle = -(angle);
-    }
+
     return angle;
 }
 
-IplImage* AlignLRPupilPos::rotate(IplImage* eyeImg, double angle)
-{
+IplImage* AlignLRPupilPos::rotate(IplImage* eyeImg, double angle) {
     IplImage* destImg = cvCreateImage(cvSize(eyeImg->width, eyeImg->height), 8, 1);
     double factor = 1;
     //int delta = 1;
