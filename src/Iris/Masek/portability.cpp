@@ -1,5 +1,5 @@
 #include "portability.h"
-#
+
 #ifdef _WIN32
 #include <cfloat>
 #else
@@ -18,9 +18,9 @@ Math::Math()
 
 bool Math::IsNaN(const double x) {
 #ifdef _WIN32
-    return _isnan(x) != 0;
+    return std::_isnan(x) != 0;
 #else
-    return isnan(x) != 0;
+    return std::isnan(x) != 0;
 #endif
 }
 

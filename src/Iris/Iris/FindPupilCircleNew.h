@@ -22,8 +22,8 @@ public:
 	* @param ratio4Circle	Select the greater length bewteen width and height under the size condition
 	* @param closeItr		Number of iteration for closing
 	* @param openItr		Number of iteration for opening
-	* @param m				Boost speed 
-	* 						(Default=1: When increased this method is faster, 
+	* @param m				Boost speed
+	* 						(Default=1: When increased this method is faster,
 	* 						but the results gets slightly worse)
 	* @param alpha			Additional value for determining threshold
 	* @param nScale			Valid \c scales values:
@@ -48,7 +48,7 @@ public:
 	*
 	* @param img		Input image
 	* @param rPupilMax	Pupil maximum radius
-	* @param space		Width of the nose bridge	
+	* @param space		Width of the nose bridge
 	* @param ratio4Circle	Select the greater length bewteen width and height under the size condition
 	* @param closeItr		Number of iteration for closing
 	* @param openItr		Number of iteration for opening
@@ -60,8 +60,8 @@ public:
 	* @param circle1 	(OUT) Right pupil info
 	* @param circle2 	(OUT) Left pupil info
 	*/
-	static void doDetectTwoPupils(IplImage* img, 
-									int rPupilMax, 
+	static void doDetectTwoPupils(IplImage* img,
+									int rPupilMax,
 									const int space,
 									double ratio4Circle,
 									int closeItr,
@@ -70,7 +70,7 @@ public:
 									int alpha,
 									double norm,
 									float nScale,
-									int* circle1, 
+									int* circle1,
 									int* circle2);
 
 private:
@@ -92,7 +92,7 @@ private:
 	* @param closeItr		Number of iteration for closing
 	* @param openItr		Number of iteration for opening
 	* @param threshold		Threshold value
-	* @param limitRadius	Maximum radius of a potential pupil circle 	
+	* @param limitRadius	Maximum radius of a potential pupil circle
 	* @param ratio4Circle	Select the greater length bewteen width and height under the size condition
 	* @param nScale			Valid \c scales values:
 	*						- \c 1 = if \c img is smaller than 600x440px
@@ -101,9 +101,9 @@ private:
     * 		(Biggest circle-> 0:x, 1:y, 2:radius, Secondary circle->3:x, 4:y, 5:radius,)
 	*/
 	static void getCoordinates(IplImage* grayImg, int closeItr, int openItr,
-		int threshold, int limitRadius, 
+		int threshold, int limitRadius,
 		double ratio4Circle, float nScale, int* circles);
-	
+
 	/**
 	* Return the radius of a pupil circle.
 	*
@@ -114,7 +114,7 @@ private:
 	* @return				Circle radius
 	*/
 	static int getRadius(int width, int height, int limitRadius, double ratio4Circle);
-	
+
 	/**
 	* Determine the pupil center-points and radius.
 	*
@@ -126,7 +126,7 @@ private:
 	* @param circles 		(OUT) Pupil circle info
     * 		(Biggest circle-> 0:x, 1:y, 2:radius, Secondary circle->3:x, 4:y, 5:radius,)
     */
-	static void getPupilPosition(CvSeq* contour, int minCount, int maxCount, 
+	static void getPupilPosition(CvSeq* contour, int minCount, int maxCount,
 						int limitRadius, double ratio4Circle, int *circles);
 
 	/**

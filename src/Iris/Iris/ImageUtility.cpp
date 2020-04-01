@@ -59,9 +59,9 @@ void ImageUtility::showMatImage(const char *name, cv::Mat *img) {
 
 void ImageUtility::showCircles(const char* name, IplImage* img,
 		const char* eyeFileName, CvPoint xyPupil, int rPupil, CvPoint xyIris,
-		int rIris, int* ellipseVal, double* angleVal)
-// eyeFileName is not used. need to check.
-		{
+		int rIris, int* ellipseVal, double* angleVal) {
+	// eyeFileName is not used. need to check.
+
 	// Draw circles and ellipses
 	cvCircle(img, xyPupil, rPupil, CV_RGB(255, 255, 255), 1, 8);
 	cvCircle(img, xyIris, rIris, CV_RGB(255, 255, 255), 1, 8);
@@ -112,7 +112,6 @@ void ImageUtility::showEyeLidPoints(const char* name, IplImage* img, double *x,
 	cvCircle(img, bot3, 3, CV_RGB(255, 255, 255), 1, 8);
 
 	showImage(name, img);
-
 }
 
 void ImageUtility::drawCross(IplImage* eyeImg, int centerx, int centery,
@@ -169,7 +168,6 @@ void ImageUtility::drawEyeLidLines(IplImage *eyeImg, int *x, int *ty, int *by,
 
 		cvLine(img, pt1, pt2, CV_RGB(255, 0, 0), 1, 8);
 		cvLine(img, pt3, pt4, CV_RGB(255, 0, 0), 1, 8);
-
 	}
 
 	showImage("Eyelid lines", img);
@@ -253,14 +251,73 @@ char* ImageUtility::SaveEyeImages(IplImage* img, char* fileName, const char* ch,
 // For analysis purposes:
 // Save the extracted image and write the file info to a TXT file
 void ImageUtility::SaveImageOptions(IplImage *img, char *fileName, int frame,
-		const char *str, int num, int totalFrame)
-// totalFrame is not used. need to check.
-		{
+		const char *str, int num, int totalFrame) {
+	// totalFrame is not used. need to check.
 	char buffer[1024];
 	sprintf(buffer, "%d_%s%d", frame, str, num);
 	const char *temp = buffer;
 	char *saveFName = SaveEyeImages(img, fileName, temp, "bmp");
 	delete[] saveFName;
+}
+
+// copied from opencv2 copy.cpp
+void cvCopy(const void* srcarr, void* dstarr, const void* maskarr) {
+    if(CV_IS_SPARSE_MAT(srcarr) && CV_IS_SPARSE_MAT(dstarr)) {
+        CV_Assert(maskarr == 0);
+        CvSparseMat* src1 = (CvSparseMat*)srcarr;
+        CvSparseMat* dst1 = (CvSparseMat*)dstarr;
+        CvSparseMatIterator iterator;
+        CvSparseNode* node;
+
+        dst1->dims = src1->dims;
+        memcpy(dst1->size, src1->size, src1->dims*sizeof(src1->size[0]));
+        dst1->valoffset = src1->valoffset;
+        dst1->idxoffset = src1->idxoffset;
+        cvClearSet(dst1->heap);
+
+        if(src1->heap->active_count >= dst1->hashsize*CV_SPARSE_HASH_RATIO) {
+            cvFree(&dst1->hashtable);
+            dst1->hashsize = src1->hashsize;
+            dst1->hashtable =
+                (void**)cvAlloc(dst1->hashsize*sizeof(dst1->hashtable[0]));
+        }
+
+        memset(dst1->hashtable, 0, dst1->hashsize*sizeof(dst1->hashtable[0]));
+
+        for(node = cvInitSparseMatIterator(src1, &iterator);
+             node != 0; node = cvGetNextSparseNode(&iterator)) {
+            CvSparseNode* node_copy = (CvSparseNode*)cvSetNew(dst1->heap);
+            int tabidx = node->hashval & (dst1->hashsize - 1);
+            memcpy(node_copy, node, dst1->heap->elem_size);
+            node_copy->next = (CvSparseNode*)dst1->hashtable[tabidx];
+            dst1->hashtable[tabidx] = node_copy;
+        }
+        return;
+    }
+    cv::Mat src = cv::cvarrToMat(srcarr, false, true, 1), dst = cv::cvarrToMat(dstarr, false, true, 1);
+    CV_Assert(src.depth() == dst.depth() && src.size == dst.size);
+
+    int coi1 = 0, coi2 = 0;
+    if(CV_IS_IMAGE(srcarr))
+        coi1 = cvGetImageCOI((const IplImage*)srcarr);
+    if(CV_IS_IMAGE(dstarr))
+        coi2 = cvGetImageCOI((const IplImage*)dstarr);
+
+    if(coi1 || coi2) {
+        CV_Assert((coi1 != 0 || src.channels() == 1) &&
+            (coi2 != 0 || dst.channels() == 1));
+
+        int pair[] = { std::max(coi1-1, 0), std::max(coi2-1, 0) };
+        cv::mixChannels(&src, 1, &dst, 1, pair, 1);
+        return;
+    }
+    else
+        CV_Assert(src.channels() == dst.channels());
+
+    if(!maskarr)
+        src.copyTo(dst);
+    else
+        src.copyTo(dst, cv::cvarrToMat(maskarr));
 }
 
 IplImage *ImageUtility::extractImagePart(IplImage *img, CvRect& rect, int x,

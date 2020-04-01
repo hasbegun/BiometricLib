@@ -6,11 +6,11 @@
 
 #include "Masek/Masek.h"
 #include <opencv2/core/core.hpp>
-#include <opencv2/legacy/compat.hpp>
+// #include <opencv2/legacy/compat.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
-
+#include <opencv2/core/core.hpp>
 
 #include <time.h>
 #include <iostream>
@@ -29,20 +29,27 @@ using namespace std;
 #define ND_IRIS49_IRISGUARD		06// (CODE: N49)
 #define ND_IRIS59_CFAIRS		07// (CODE: N59)
 
+#define cvCopyImage( src, dst )         cvCopy( src, dst, 0 )
+
+/* maximal average node_count/hash_size ratio beyond which hash table is resized
+   from opencv24 internal.hpp
+*/
+#define CV_SPARSE_HASH_RATIO 	3
 
 /** Number of gray levels. */
 #define GRAY_LEVEL 256
 
+#define CV_RGB( r, g, b )  cvScalar( (b), (g), (r), 0 )
 /**
  * Image processing utility class.
  */
 class ImageUtility
 {
-public: 
+public:
 	/**
 	 * Region of Interest and center points information
 	 */
-	typedef struct 
+	typedef struct
 	{
 		CvRect	rect;	///< ROI.
 		CvPoint p; 		///< Center point.
@@ -50,7 +57,7 @@ public:
 
 	ImageUtility();
 	virtual ~ImageUtility();
-	/** 
+	/**
 	 * Set an ROI of an image as IplImage.
 	 *
 	 * @param img	Input image.
@@ -62,7 +69,7 @@ public:
 	 */
 	static IplImage* setROIImage(IplImage* img, int x, int y, int wd, int ht);
 
-	/** 
+	/**
 	 * Set an ROI of an image as IMAGE.
 	 *
 	 * @param image	Input image.
@@ -75,18 +82,18 @@ public:
 	static Masek::IMAGE * setROIImage_C(Masek::IMAGE *image, int x, int y, int wd, int ht);
 
 
-	/** 
+	/**
 	 * Calculate the mean of an image.
-	 * 
+	 *
 	 * @param img	Input image
 	 * @param n		Total number of pixels
 	 * @return		Mean value
 	 */
 	static float myMean(IplImage* img, double n);
 
-	/** 
+	/**
 	 * Calculate the standard deviation of an image.
-	 * 
+	 *
 	 * @param img	Input image
 	 * @param n		Total number of pixels
 	 * @param mean	Previously calculated mean value
@@ -94,8 +101,8 @@ public:
 	 * @see myMean
 	 */
 	static float mySD(IplImage* img, double n, float mean);
-	
-	/** 
+
+	/**
 	 * Displays an image and waits for a keypress.
 	 *
 	 * @note Uses OpenCV to display the image
@@ -106,7 +113,7 @@ public:
 	static void showImage(const char* name, IplImage* img);
     static void showMatImage(const char *name, cv::Mat *img);
 
-	/** 
+	/**
 	 * Displays an image overlaid with circles and ellipses.
 	 *
 	 * @note The image is modified in the process!
@@ -136,14 +143,14 @@ public:
 
     static void showEyeLidPoints(const char* name, IplImage* img, double *x, double *ty, double *by);
 
-	/** 
+	/**
 	 * Display an image overlaid with a cross.
 	 *
 	 * @param eyeImg			Input image
-	 * @param centerx		Center X 
-	 * @param centery		Center Y 
-	 * @param xCrossLength	Cross' length of X 
-	 * @param yCrossLength	Cross' length of Y 
+	 * @param centerx		Center X
+	 * @param centery		Center Y
+	 * @param xCrossLength	Cross' length of X
+	 * @param yCrossLength	Cross' length of Y
 	 * @param color			Cross' color
 	 */
     static void drawCross(IplImage *eyeImg, int centerx, int centery,
@@ -159,21 +166,21 @@ public:
      */
     static void drawEyeLidLines(IplImage *eyeImg, int *x, int *ty, int *by, int size);
 
-	/** 
+	/**
 	 * Convert a color image to a gray-scale image.
 	 *
 	 * @note The returned image needs to be deallocated
-	 * 
+	 *
 	 * @param img	Input image
 	 * @return		Created gray-scale image
 	 */
 	static IplImage* convertToGray(IplImage* img);
 
-	/** 
+	/**
 	 * Convert an IplImage to an IMAGE.
 	 *
 	 * @note The returned image needs to be deallocated
-	 * 
+	 *
 	 * @param iplImg	Input IPL type image
 	 * @return			IMAGE type image
 	 * @see convertImageToIpl
@@ -181,11 +188,11 @@ public:
 	static Masek::IMAGE* convertIplToImage(IplImage* iplImg);
 	//static IplImage* convertFilterToIpl(Masek::filter* image);
 
-	/** 
+	/**
 	 * Convert an IMAGE to an IplImage
 	 *
 	 * @note The returned image needs to be deallocated
-	 * 
+	 *
 	 * @param image Input IMAGE type image
 	 * @return		IPL type image
 	 * @see convertIplToImage
@@ -193,7 +200,7 @@ public:
     static IplImage* convertImageToIpl(Masek::IMAGE* image);
     static IplImage* convertFilterToIpl(Masek::filter* filter);
 
-	/** 
+	/**
 	 * Save an IplImage as BMP file.
 	 *
 	 * Resulting filename: "<fileName>_<ch>.bmp"
@@ -205,10 +212,10 @@ public:
 	 * @return			Name of the created file
 	 * @see SaveImageOptions
 	 */
-	static char* SaveEyeImages(IplImage* img, char* fileName, 
+	static char* SaveEyeImages(IplImage* img, char* fileName,
                                 const char* ch, const char* format);
-	
-	/** 
+
+	/**
 	 * Save an IplImage along with the position and sequence info encoded in
 	 * the output filename.
 	 *
@@ -217,7 +224,7 @@ public:
 	 * @param img		Input image
 	 * @param fileName	Filename of the input image
 	 * @param frame		Frame sequence
-	 * @param str		"L" (left) or "R" (right) position 
+	 * @param str		"L" (left) or "R" (right) position
 	 * @param num		Detected eye image sequence
 	 * @param totalFrame Total number of frames
 	 * @see SaveEyeImages
@@ -225,8 +232,8 @@ public:
     static void SaveImageOptions(IplImage* img, char* fileName, int frame,
                                  const char* str, int num, int totalFrame);
 
-	
-	/** 
+
+	/**
 	 * Extract a rectangular part out of an image.
 	 *
 	 * @note The returned image needs to be deallocated
@@ -240,9 +247,9 @@ public:
 	 * @return		Extracted image.
 	 */
 	static IplImage* extractImagePart(IplImage* img, CvRect& rect, int x, int y, int wd, int ht);
-	
-	
-	/** 
+
+
+	/**
 	 * Return the ROI of an image as IplImage.
 	 *
 	 * @param eyeImg	Input image.
@@ -255,8 +262,8 @@ public:
 	 * @see getROIImage_C
 	 */
 	static IplImage* getROIImage(IplImage* eyeImg, int startX, int endX, int startY, int endY);
-	
-	/** 
+
+	/**
 	 * Returns an ROI of an image as IMAGE.
 	 *
 	 * @param eyeImg	Input image.
@@ -270,8 +277,8 @@ public:
 	 */
     static Masek::IMAGE* getROIImage_C(Masek::IMAGE* eyeImg, int startX, int endX,
                                        int startY, int endY);
-	
-	/** 
+
+	/**
 	 * Calculates the rectangular info and center point.
 	 *
 	 * @param eyeImg	Input image.
@@ -284,8 +291,8 @@ public:
 	 * See also SETVALUE
 	 */
 	static SETVALUE setImage(IplImage* eyeImg, CvPoint center, int cr, int xLimit, int yLimit);
-	
-	/** 
+
+	/**
 	 * Calculate the square rectangular info.
 	 *
 	 * @param img		Input image.
@@ -294,9 +301,9 @@ public:
      * @param radius	Input radius
 	 * @param destVal 	(OUT) Used to return the rect info (0:left, 1:right, 2:bottom, 3:top)
 	 */
-	static void myRect(IplImage* img, int x, int y, int radius, int* destVal);	
-	
-	/** 
+	static void myRect(IplImage* img, int x, int y, int radius, int* destVal);
+
+	/**
 	 * Calculates the rectangular info with different X and Y radius.
 	 *
 	 * @param img		Input IPL image.
@@ -308,7 +315,7 @@ public:
 	 */
 	static void myXYRect(IplImage* img, int x, int y, int width, int height, int* destVal);
 
-	/** 
+	/**
 	 * Calculates the rectangular info with different X and Y radius.
 	 *
 	 * @param image		Input IMAGE image.
@@ -320,7 +327,7 @@ public:
 	 */
 	static void myXYRect_C(Masek::IMAGE *image, int x, int y, int width, int height, int* destVal);
 
-	/** 
+	/**
 	 * Calculate the square rectangular info of an IMAGE type image.
 	 *
 	 * @param lidImg	Input image.
@@ -330,17 +337,17 @@ public:
 	 * @param destVal	(OUT) Used to return the rect info (0:left, 1:right, 2:bottom, 3:top)
 	 */
 	static void myRect_C(Masek::IMAGE *lidImg, int x, int y, int radius, int* destVal);
-	
-	/** 
+
+	/**
 	 * Debug values.
 	 *
 	 * @param value		Actual value.
 	 * @param maxSize	Max width or height
 	 * @return			Proper value
 	 */
-	static int getValue(int value, int maxSize);	
+	static int getValue(int value, int maxSize);
 
-	/** 
+	/**
 	 * Time elapsed.
 	 *
 	 * @param clock1 	Ending time
