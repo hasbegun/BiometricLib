@@ -10,6 +10,10 @@
 #include <opencv2/objdetect/objdetect.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+//#include <opencv2/core/core_c.h>
+//#include <opencv2/objdetect/objdetect_c.h>
+//#include <opencv2/highgui/highgui_c.h>
+
 /**
  * Eye region detection class.
  */
@@ -80,4 +84,3 @@ private:
 };
 
 #endif // !EYE_DETECTION_H
-

@@ -13,5 +13,9 @@ ENV PATH /home/developer/.local/bin:$PATH
 # Avoid first use of sudo warning. c.f. https://askubuntu.com/a/22614/781671
 RUN touch $HOME/.sudo_as_admin_successful
 
+# add basic files
+ADD res/gitconfig /home/developer/.gitconfig
+ADD res/commit_template.txt /home/developer/.commit_template.txt
+
 # USER developer
 CMD ["/bin/bash"]

@@ -1,0 +1,37 @@
+[user]
+	name = Inho Choi
+	email = hasbegun@gmail.com
+[inho]
+	choi = Inho Choi
+
+[branch]
+        autosetuprebase = always
+[color]
+        diff = on
+[commit]
+        template = ~/.commit_template.txt
+[merge]
+        ff = only
+[push]
+        default = simple
+[rebase]
+        stat = true
+[clean]
+        requireForce = true
+[core]
+	editor = /usr/bin/vim
+[alias]
+        co = checkout
+        df = diff
+        ls = ls-files
+        st = status
+        br = branch
+	cm = commit
+	pl = pull
+	pu = push
+        sh = show
+
+[filter "lfs"]
+	smudge = git-lfs smudge %f
+	required = true
+	clean = git-lfs clean %f
