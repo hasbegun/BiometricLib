@@ -1,15 +1,20 @@
 FROM u18-ocv3-qt5
 
 WORKDIR /home/developer/projects
+RUN mkdir /home/developer/.ssh && chown developer:developer /home/developer/.ssh
 
 # add basic files
 ADD res/gitconfig /home/developer/.gitconfig
 ADD res/commit_template.txt /home/developer/.commit_template.txt
 ADD res/bashrc /home/developer/.bashrc
+ADD res/docker_dev /home/developer/.ssh/docker_dev
+ADD res/docker_dev.pub /home/developer/.ssh/docker_dev.pub
 RUN chown developer:developer \
     /home/developer/.gitconfig \
     /home/developer/.commit_template.txt \
-    /home/developer/.bashrc
+    /home/developer/.bashrc \
+    /home/developer/.ssh/docker_dev \
+    /home/developer/.ssh/docker_dev.pub
 
 # Use C.UTF-8 locale to avoid issues with ASCII encoding
 ENV LC_ALL=C.UTF-8
