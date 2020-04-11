@@ -12,6 +12,8 @@ FACE_RECOG_DST=/home/developer/projects/face_recognition
 IRIS_UX_SRC=/Users/inho.choi/devel/alphablocks/projects/iris/IrisAnalysis
 IRIS_UX_DST=/home/developer/projects/IrisAnalysis
 
+CONTAINER_IP=192.168.0.50
+
 exec docker run -it \
     -v  $BIO_SRC:$BIO_DST \
     -v  $FACE_RECOG_SRC:$FACE_RECOG_DST \
@@ -20,5 +22,6 @@ exec docker run -it \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v ${HOME}/.Xauthority:/home/user/.Xauthority \
     --name iris-ocv3-qt5_dev \
+    --ip $CONTAINER_IP \
     iris-ocv3-qt5:latest \
     "$@"
