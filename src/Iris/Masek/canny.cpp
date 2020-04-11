@@ -27,8 +27,8 @@
 %
 % See also:  NONMAXSUP, HYSTHRESH
 
-% Author: 
-% Peter Kovesi   
+% Author:
+% Peter Kovesi
 % Department of Computer Science & Software Engineering
 % The University of Western Australia
 % pk@cs.uwa.edu.au  www.cs.uwa.edu.au/~pk
@@ -40,12 +40,19 @@
 
 function [gradient, or] = canny(im, sigma, scaling, vert, horz)*/
 
-#include <malloc.h>
-// #include <malloc/malloc.h>
+// platform dependenet.
+#ifdef __unix__
+	// linux
+	#include <malloc.h>
+#else
+	// mac
+	#include <malloc/malloc.h>
+#endif
+
 #include "Masek.h"
 #include "math.h"
 
-Masek::IMAGE* Masek::canny(IMAGE *im, double sigma, double scaling, 
+Masek::IMAGE* Masek::canny(IMAGE *im, double sigma, double scaling,
 						   double vert, double horz, filter *gradient, filter *orND)
 {
 
@@ -68,13 +75,13 @@ Masek::IMAGE* Masek::canny(IMAGE *im, double sigma, double scaling,
 
 	/*gaussian = fspecial('gaussian',hsize,sigma);
 	im = filter2(gaussian,im);        % Smoothed image.*/
-	
+
     CREATEGAUSS (hsize, sigma, &gaussian);
-	
+
 	newim = filter2(gaussian,im);
-	
+
 	newim = imresize(newim, scaling);
-	
+
 	rows = newim->hsize[0];
 	cols = newim->hsize[1];
 
@@ -90,7 +97,7 @@ Masek::IMAGE* Masek::canny(IMAGE *im, double sigma, double scaling,
 				*(h+i*cols+j) = (-newim->data[i*cols+j-1]);
 			else
 				*(h+i*cols+j) = (newim->data[i*cols+j+1]-newim->data[i*cols+j-1]);
-			
+
 		}
 	}
 
@@ -106,7 +113,7 @@ Masek::IMAGE* Masek::canny(IMAGE *im, double sigma, double scaling,
 				*(v+i*cols+j) = -newim->data[(i-1)*cols+j];
 			else
 				*(v+i*cols+j) = (newim->data[(i+1)*cols+j]-newim->data[(i-1)*cols+j]);
-			
+
 		}
 	}
 
@@ -121,14 +128,14 @@ Masek::IMAGE* Masek::canny(IMAGE *im, double sigma, double scaling,
 				begin = 0;
 			else
 				begin = newim->data[(i+1)*cols+j+1];
-			
+
 			if (i == 0 || j == 0)
 				end = 0;
 			else
 				end = newim->data[(i-1)*cols+j-1];
-					
+
 			*(d1+i*cols+j) = begin-end;
-			
+
 		}
 	}
 
@@ -140,14 +147,14 @@ Masek::IMAGE* Masek::canny(IMAGE *im, double sigma, double scaling,
 				begin = 0;
 			else
 				begin = newim->data[(i-1)*cols+j+1];
-			
+
 			if (i == rows-1 || j == 0)
 				end = 0;
 			else
 				end = newim->data[(i+1)*cols+j-1];
-					
+
 			*(d2+i*cols+j) = begin-end;
-			
+
 		}
 	}
 
@@ -159,17 +166,17 @@ Masek::IMAGE* Masek::canny(IMAGE *im, double sigma, double scaling,
 	gradient->hsize[0] = rows;
 	gradient->hsize[1] = cols;
 
-	
+
 	for (i = 0; i<rows*cols;i++)
 	{
         X = (h[i]+(d1[i]+d2[i])/2.0)*xscaling;
-		
+
 		Y = (v[i]+(d1[i]-d2[i])/2.0)*yscaling;
 
 		gradient->data[i] = sqrt(X*X+Y*Y);
-	
+
 		orND->data[i] = atan2(-Y, X);
-		
+
 		/*if (i == 14)
 		{
 		printf("h is %f, d1 is %f, d2 is %f, v is %f xscaling is %f, yscaling is %f\n", h[i], d1[i], d2[i], v[i], xscaling, yscaling);
@@ -177,20 +184,20 @@ Masek::IMAGE* Masek::canny(IMAGE *im, double sigma, double scaling,
 		printf("orND is %f\n", orND->data[i]);
 		}
 */
-					
+
 		if (orND->data[i]<0)
 			orND->data[i]+=PI;
-		
+
 //		if (i == 14)
-//			printf("orND is %f\n", orND->data[i]);		
-		
+//			printf("orND is %f\n", orND->data[i]);
+
 		orND->data[i] = (orND->data[i]/PI)*180;
 //		if (i == 14)
-//			printf("orND is %f\n", orND->data[i]);		
-		
-		
+//			printf("orND is %f\n", orND->data[i]);
+
+
 	}
-	
+
 	free (gaussian.data);
 	free(d1);
 	free(d2);

@@ -5,11 +5,11 @@ file(GLOB FACE_SRC *.h *.hpp *.cpp)
 
 # find opencv pkg with specific version and path.
 # otherwise it will find the pkg at the PATH usuallo /usr/local/lib
-find_package(OpenCV 3 REQUIRED)
+find_package(OpenCV 3.4 REQUIRED)
 message( ${OpenCV_VERSION} )
 message("-- OPENCV include: " ${OpenCV_INCLUDE_DIRS})
 
-if (${OpenCV_VERSION} VERSION_LESS 3)
+if (${OpenCV_VERSION} VERSION_LESS 3.4)
     message(FATAL_ERROR "OpenCV version is not compatible : ${OpenCV_VERSION}")
 endif()
 

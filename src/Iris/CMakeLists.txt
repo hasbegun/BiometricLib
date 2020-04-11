@@ -7,7 +7,15 @@ file(GLOB MASEK_SRC Masek/*.h Masek/*.hpp Masek/*.cpp)
 # find opencv pkg with specific version and path.
 # otherwise it will find the pkg at the PATH /usr/local/lib
 # find_package(OpenCV 2.4.13.6 REQUIRED PATHS /usr/local/opencv/2.4.13.6)
-find_package(OpenCV 3.4 REQUIRED)
+if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    message("Mac OS")
+    find_package(OpenCV 3.4 REQUIRED PATHS /usr/local/opt/opencv@3)
+
+elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
+    message("Linux")
+    find_package(OpenCV 3.4 REQUIRED)
+endif()
+
 message("-- OCV version: " ${OpenCV_VERSION} )
 message("-- OCV include: " ${OpenCV_INCLUDE_DIRS})
 message("-- OCV libs: " ${OpenCV_LIBS})
