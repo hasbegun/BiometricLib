@@ -27,4 +27,13 @@ ENV PATH /home/developer/.local/bin:$PATH
 # Avoid first use of sudo warning. c.f. https://askubuntu.com/a/22614/781671
 RUN touch $HOME/.sudo_as_admin_successful
 
+# Add key to ssh known hosts.
+# Keep this line as a line. If split, the key will be lost and will not work.
+RUN eval "$(ssh-agent)" && \
+    ssh-keyscan github.com >> /home/developer/.ssh/known_hosts && \
+    ssh-add -k /home/developer/.ssh/docker_dev && \
+    git clone git@github.com:hasbegun/BiometricLib.git && \
+	cd BiometricLib && ./build.sh && \
+    rm -rf /home/developer/projects/BiometricLib
+
 CMD ["/bin/bash"]

@@ -8,11 +8,11 @@ file(GLOB MASEK_SRC Masek/*.h Masek/*.hpp Masek/*.cpp)
 # otherwise it will find the pkg at the PATH /usr/local/lib
 # find_package(OpenCV 2.4.13.6 REQUIRED PATHS /usr/local/opencv/2.4.13.6)
 if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-    message("Mac OS")
+    message("-- System: Mac OS")
     find_package(OpenCV 3.4 REQUIRED PATHS /usr/local/opt/opencv@3)
 
 elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
-    message("Linux")
+    message("-- System: Linux")
     find_package(OpenCV 3.4 REQUIRED)
 endif()
 
