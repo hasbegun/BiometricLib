@@ -10,7 +10,6 @@ file(GLOB MASEK_SRC Masek/*.h Masek/*.hpp Masek/*.cpp)
 if (CMAKE_SYSTEM_NAME MATCHES "Darwin")
     message("-- System: Mac OS")
     find_package(OpenCV 3.4 REQUIRED PATHS /usr/local/opt/opencv@3)
-
 elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
     message("-- System: Linux")
     find_package(OpenCV 3.4 REQUIRED)
@@ -38,6 +37,6 @@ install(TARGETS ${PROJECT_NAME}
         ARCHIVE DESTINATION lib
         PUBLIC_HEADER DESTINATION include)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Iris DESTINATION include
-        FILES_MATCHING PATTERN "*h")
+        FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Masek DESTINATION include
-        FILES_MATCHING PATTERN "*h")
+        FILES_MATCHING PATTERN "*.h")
