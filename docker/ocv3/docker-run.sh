@@ -1,11 +1,15 @@
 #!/bin/bash
 
-BIO_SRC=/Users/inho.choi/devel/alphablocks/projects/iris/BiometricLib
-BIO_DST=/home/developer/projects/Biometriclib
-FACE_RECOG_SRC=/Users/inho.choi/devel/alphablocks/projects/iris/face_recognition
-FACE_RECOG_DST=/home/developer/projects/face_recognition
-IRIS_UX_SRC=/Users/inho.choi/devel/alphablocks/projects/iris/IrisAnalysis
-IRIS_UX_DST=/home/developer/projects/IrisAnalysis
+SRC_BASE=/Users/inho.choi/devel/alphablocks
+DST_BASE=/home/developer/projects
+BIO_SRC=$SRC_BASE/projects/iris/BiometricLib
+BIO_DST=$DST_BASE/Biometriclib
+FACE_RECOG_SRC=$SRC_BASE/projects/iris/face_recognition
+FACE_RECOG_DST=$DST_BASE/face_recognition
+IRIS_UX_SRC=$SRC_BASE/projects/iris/IrisAnalysis
+IRIS_UX_DST=$DST_BASE/IrisAnalysis
+DATA_SET_SRC=$SRC_BASE/datasets
+DATA_SET_DST=$DST_BASE/datasets
 
 CONTAINER_IP=192.168.0.50
 
@@ -18,9 +22,10 @@ echo "Host IP: $IP"
 
 /usr/X11/bin/xhost +$IP
 exec docker run -it \
-    -v  $BIO_SRC:$BIO_DST \
-    -v  $FACE_RECOG_SRC:$FACE_RECOG_DST \
-    -v  $IRIS_UX_SRC:$IRIS_UX_DST \
+    -v  $BIO_SRC:$BIO_DST:rw \
+    -v  $FACE_RECOG_SRC:$FACE_RECOG_DST:rw \
+    -v  $IRIS_UX_SRC:$IRIS_UX_DST:rw \
+    -v  $DATA_SET_SRC:$DATA_SET_DST:rw \
     -e DISPLAY=$IP:0 \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v ${HOME}/.Xauthority:/home/developer/.Xauthority \
