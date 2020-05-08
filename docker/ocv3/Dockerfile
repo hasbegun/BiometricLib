@@ -9,6 +9,8 @@ ADD res/commit_template.txt /home/developer/.commit_template.txt
 ADD res/bashrc /home/developer/.bashrc
 ADD res/docker_dev /home/developer/.ssh/docker_dev
 ADD res/docker_dev.pub /home/developer/.ssh/docker_dev.pub
+ADD res/ssh-config /home/developer/.ssh/config
+
 RUN chown developer:developer \
     /home/developer/.gitconfig \
     /home/developer/.commit_template.txt \

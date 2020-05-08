@@ -1,0 +1,5 @@
+Host hasbegun-github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/docker-dev
+  PreferredAuthentications publickey
