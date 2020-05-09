@@ -31,5 +31,5 @@ exec docker run -it \
     -v ${HOME}/.Xauthority:/home/developer/.Xauthority \
     --name iris-ocv3-qt5_dev \
     --ip $CONTAINER_IP \
-    iris-ocv3-qt5:latest \
+    iris-ocv3-qt5-dev:latest \
     "$@"

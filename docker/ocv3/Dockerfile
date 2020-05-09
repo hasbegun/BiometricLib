@@ -1,4 +1,4 @@
-FROM u18-ocv3-qt5
+FROM iris-ocv3-qt5
 
 WORKDIR /home/developer/projects
 RUN mkdir /home/developer/.ssh && chown developer:developer /home/developer/.ssh
