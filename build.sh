@@ -12,4 +12,4 @@ fi
 mkdir ${BUILD_DIR}
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr/local/alphablocks ..
-make -j4 && sudo make install
+make -j$(nproc) && sudo make install
