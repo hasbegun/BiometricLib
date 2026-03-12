@@ -1,0 +1,81 @@
+include(GoogleTest)
+
+# Helper to add a unit test
+function(eyetrack_add_test TEST_NAME)
+    add_executable(${TEST_NAME} ${ARGN})
+    target_link_libraries(${TEST_NAME} PRIVATE eyetrack GTest::gtest_main)
+    target_compile_definitions(${TEST_NAME} PRIVATE
+        EYETRACK_PROJECT_ROOT="${CMAKE_SOURCE_DIR}")
+    gtest_discover_tests(${TEST_NAME})
+endfunction()
+
+# Helper for tests that need WHOLE_ARCHIVE (node auto-registration)
+function(eyetrack_add_test_whole_archive TEST_NAME)
+    add_executable(${TEST_NAME} ${ARGN})
+    target_link_libraries(${TEST_NAME} PRIVATE
+        $<LINK_LIBRARY:WHOLE_ARCHIVE,eyetrack> GTest::gtest_main)
+    target_compile_definitions(${TEST_NAME} PRIVATE
+        EYETRACK_PROJECT_ROOT="${CMAKE_SOURCE_DIR}")
+    gtest_discover_tests(${TEST_NAME})
+endfunction()
+
+# --- Unit tests ---
+eyetrack_add_test(test_scaffolding unit/test_scaffolding.cpp)
+eyetrack_add_test(test_cmake_config unit/test_cmake_config.cpp)
+eyetrack_add_test(test_types unit/test_types.cpp)
+eyetrack_add_test(test_error unit/test_error.cpp)
+eyetrack_add_test(test_config unit/test_config.cpp)
+eyetrack_add_test(test_algorithm unit/test_algorithm.cpp)
+eyetrack_add_test(test_pipeline_node unit/test_pipeline_node.cpp)
+eyetrack_add_test(test_node_registry unit/test_node_registry.cpp)
+eyetrack_add_test(test_thread_pool unit/test_thread_pool.cpp)
+eyetrack_add_test(test_cancellation unit/test_cancellation.cpp)
+eyetrack_add_test(test_geometry_utils unit/test_geometry_utils.cpp)
+eyetrack_add_test(test_proto_serialization unit/test_proto_serialization.cpp)
+eyetrack_add_test(test_fixtures_validation unit/test_fixtures_validation.cpp)
+eyetrack_add_test(test_image_utils unit/test_image_utils.cpp)
+eyetrack_add_test(test_eye_fixtures_validation unit/test_eye_fixtures_validation.cpp)
+eyetrack_add_test_whole_archive(test_preprocessor unit/test_preprocessor.cpp)
+eyetrack_add_test_whole_archive(test_face_detector unit/test_face_detector.cpp)
+eyetrack_add_test_whole_archive(test_face_detector_dlib unit/test_face_detector_dlib.cpp)
+eyetrack_add_test_whole_archive(test_eye_extractor unit/test_eye_extractor.cpp)
+eyetrack_add_test_whole_archive(test_pupil_detector unit/test_pupil_detector.cpp)
+eyetrack_add_test(test_calibration_utils unit/test_calibration_utils.cpp)
+eyetrack_add_test_whole_archive(test_calibration unit/test_calibration.cpp)
+eyetrack_add_test_whole_archive(test_gaze_estimator unit/test_gaze_estimator.cpp)
+eyetrack_add_test_whole_archive(test_gaze_smoother unit/test_gaze_smoother.cpp)
+eyetrack_add_test(test_ear_computation unit/test_ear_computation.cpp)
+eyetrack_add_test_whole_archive(test_blink_detector unit/test_blink_detector.cpp)
+eyetrack_add_test_whole_archive(test_blink_state_machine unit/test_blink_state_machine.cpp)
+eyetrack_add_test(test_pipeline_context unit/test_pipeline_context.cpp)
+eyetrack_add_test_whole_archive(test_pipeline_executor unit/test_pipeline_executor.cpp)
+eyetrack_add_test_whole_archive(test_grpc_server unit/test_grpc_server.cpp)
+eyetrack_add_test(test_websocket_server unit/test_websocket_server.cpp)
+eyetrack_add_test(test_mqtt_handler unit/test_mqtt_handler.cpp)
+eyetrack_add_test(test_session_manager unit/test_session_manager.cpp)
+eyetrack_add_test(test_input_validation unit/test_input_validation.cpp)
+eyetrack_add_test(test_rate_limiter unit/test_rate_limiter.cpp)
+eyetrack_add_test(test_auth_middleware unit/test_auth_middleware.cpp)
+eyetrack_add_test(test_gateway unit/test_gateway.cpp)
+
+# --- Integration tests ---
+eyetrack_add_test_whole_archive(test_face_eye_pipeline integration/test_face_eye_pipeline.cpp)
+eyetrack_add_test_whole_archive(test_gaze_pipeline_integration integration/test_gaze_pipeline_integration.cpp)
+eyetrack_add_test_whole_archive(test_blink_integration integration/test_blink_integration.cpp)
+eyetrack_add_test_whole_archive(test_grpc_streaming integration/test_grpc_streaming.cpp)
+eyetrack_add_test(test_websocket_streaming integration/test_websocket_streaming.cpp)
+eyetrack_add_test(test_mqtt_roundtrip integration/test_mqtt_roundtrip.cpp)
+eyetrack_add_test(test_server_startup integration/test_server_startup.cpp)
+
+# --- Benchmarks ---
+if(EYETRACK_ENABLE_BENCH)
+    function(eyetrack_add_bench BENCH_NAME)
+        add_executable(${BENCH_NAME} ${ARGN})
+        target_link_libraries(${BENCH_NAME} PRIVATE
+            $<LINK_LIBRARY:WHOLE_ARCHIVE,eyetrack> benchmark::benchmark)
+        target_compile_definitions(${BENCH_NAME} PRIVATE
+            EYETRACK_PROJECT_ROOT="${CMAKE_SOURCE_DIR}")
+    endfunction()
+
+    eyetrack_add_bench(bench_face_detector bench/bench_face_detector.cpp)
+endif()

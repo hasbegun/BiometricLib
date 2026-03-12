@@ -1,0 +1,91 @@
+services:
+  # --- Mosquitto MQTT broker (available from Phase 1 onwards) ---
+  mosquitto:
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    restart: unless-stopped
+
+  # --- Development shell with source mounted ---
+  dev:
+    build:
+      context: .
+      target: build
+    volumes:
+      - .:/src
+    working_dir: /src
+    command: /bin/bash
+    depends_on:
+      - mosquitto
+
+  # --- Build and run tests ---
+  test:
+    build:
+      context: .
+      target: build
+    depends_on:
+      - mosquitto
+    environment:
+      - MQTT_HOST=mosquitto
+    command: >
+      bash -c "cmake --build build --parallel $$(nproc) &&
+               cd build && ctest --output-on-failure"
+
+  # --- Build and run tests under ASan + UBSan ---
+  test-asan:
+    build:
+      context: .
+      target: build
+    command: >
+      bash -c "cmake -S . -B build-san -G Ninja -DCMAKE_BUILD_TYPE=Debug
+               -DEYETRACK_ENABLE_TESTS=ON
+               -DEYETRACK_ENABLE_SANITIZERS=ON
+               -DONNXRUNTIME_ROOT=/opt/onnxruntime &&
+               cmake --build build-san --parallel $$(nproc) &&
+               cd build-san && ctest --output-on-failure"
+
+  # --- Build and run tests under TSan ---
+  test-tsan:
+    build:
+      context: .
+      target: build
+    command: >
+      bash -c "cmake -S . -B build-tsan -G Ninja -DCMAKE_BUILD_TYPE=Debug
+               -DEYETRACK_ENABLE_TESTS=ON
+               -DEYETRACK_ENABLE_TSAN=ON
+               -DONNXRUNTIME_ROOT=/opt/onnxruntime &&
+               cmake --build build-tsan --parallel $$(nproc) &&
+               cd build-tsan && ctest --output-on-failure"
+
+  # --- Build only (no tests) ---
+  build:
+    build:
+      context: .
+      target: build
+    command: >
+      bash -c "cmake --build build --parallel $$(nproc)"
+
+  # --- EyeTrack engine server ---
+  engine:
+    build:
+      context: .
+      target: build
+    depends_on:
+      - mosquitto
+    environment:
+      - MQTT_HOST=mosquitto
+    ports:
+      - "50051:50051"
+      - "8080:8080"
+    command: >
+      bash -c "./build/eyetrack_server /src/config/server.yaml"
+
+  # --- Production runtime ---
+  prod:
+    build:
+      context: .
+      target: runtime
+    read_only: true

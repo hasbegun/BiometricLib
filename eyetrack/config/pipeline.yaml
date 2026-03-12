@@ -1,0 +1,15 @@
+pipeline_name: eyetrack_default
+target_fps: 30
+frame_width: 640
+frame_height: 480
+face_model_path: models/face_detection.onnx
+pupil_model_path: models/pupil_detection.onnx
+enable_blink_detection: true
+confidence_threshold: 0.5
+
+nodes:
+  - face_detection
+  - eye_landmark
+  - pupil_detection
+  - blink_detection
+  - gaze_estimation

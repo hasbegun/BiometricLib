@@ -1,0 +1,8 @@
+1. this project is coversion is python project to cpp prefer cpp23. by doing so, want to achieve better performance  and less intensive memory use, and temper proof by potential attack.
+this is a big and complex project. let's do careful understanding first, and rewrite it all of open-iris features in cpp.
+it should be done in container so that the host doesn't get poluted.
+it is open ended  meanding we have freemto choose anything if there is opensource project that we can use. I would like to integrate open-fhe from the beginnint is possible. security and encryption is golden in this project.
+let's do plan first. make sure you understand all if its features and have clear plan to convert it in cpp. also make sure you have clean test plan and verification plan too. let's plan it.
+
+2. need to ask the following question in order to justify open-fhe use in this project. I need clean justsiitification.
+open-fhe is, in general, to shine if the content is encrypted and it can be modified without decryption. that's where is shines. in this project, iris recogniztion, once iris is enrolled, it keeps it in the designated stoage. and no modification. only allowed action is delete and reenroll iris. when iris comes to identify verification where the iris is already registered or not, open fhe must allow to do so without decryption. does it? if not why not. if so, is this the most efficient way? is there alternative?

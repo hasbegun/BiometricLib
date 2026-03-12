@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package eyetrack.proto;
+
+option cc_enable_arenas = true;
+
+// ---- Basic geometry ----
+
+message Point2D {
+    float x = 1;
+    float y = 2;
+}
+
+// ---- Eye landmarks (6-point EAR subset per eye) ----
+
+message EyeLandmarks {
+    repeated Point2D left = 1;   // 6 points
+    repeated Point2D right = 2;  // 6 points
+}
+
+// ---- Pupil detection result ----
+
+message PupilInfo {
+    Point2D center = 1;
+    float radius = 2;
+    float confidence = 3;
+}
+
+// ---- Blink classification ----
+
+enum BlinkType {
+    BLINK_NONE = 0;
+    BLINK_SINGLE = 1;
+    BLINK_DOUBLE = 2;
+    BLINK_LONG = 3;
+}
+
+// ---- Bounding box ----
+
+message Rect2f {
+    float x = 1;
+    float y = 2;
+    float width = 3;
+    float height = 4;
+}
+
+// ---- Face detection output ----
+
+message FaceROI {
+    Rect2f bounding_box = 1;
+    repeated Point2D landmarks = 2;  // 468 MediaPipe landmarks
+    float confidence = 3;
+}
+
+// ---- Per-frame input data ----
+
+message FrameData {
+    bytes frame = 1;  // encoded image bytes (JPEG/PNG)
+    uint64 frame_id = 2;
+    int64 timestamp_ns = 3;  // nanoseconds since epoch
+    string client_id = 4;
+    uint32 width = 5;
+    uint32 height = 6;
+    uint32 channels = 7;
+}
+
+// ---- Feature extraction output ----
+
+message FeatureData {
+    EyeLandmarks eye_landmarks = 1;
+    PupilInfo left_pupil = 2;
+    PupilInfo right_pupil = 3;
+    float ear_left = 4;
+    float ear_right = 5;
+    FaceROI face_roi = 6;
+    uint64 frame_id = 7;
+}
+
+// ---- Gaze estimation event ----
+
+message GazeEvent {
+    Point2D gaze_point = 1;
+    float confidence = 2;
+    BlinkType blink = 3;
+    int64 timestamp_ns = 4;
+    string client_id = 5;
+    uint64 frame_id = 6;
+}
+
+// ---- Calibration ----
+
+message CalibrationPoint {
+    Point2D screen_point = 1;
+    PupilInfo pupil_observation = 2;
+}
+
+message CalibrationRequest {
+    string user_id = 1;
+    repeated CalibrationPoint points = 2;
+}
+
+message CalibrationResponse {
+    bool success = 1;
+    string error_message = 2;
+    string profile_id = 3;
+}
+
+// ---- gRPC Service ----
+
+service EyeTrackService {
+    // Streaming gaze data from server to client
+    rpc StreamGaze(StreamGazeRequest) returns (stream GazeEvent);
+
+    // Submit a frame for processing
+    rpc ProcessFrame(FrameData) returns (GazeEvent);
+
+    // Calibration
+    rpc Calibrate(CalibrationRequest) returns (CalibrationResponse);
+
+    // Health check
+    rpc GetStatus(StatusRequest) returns (StatusResponse);
+}
+
+message StreamGazeRequest {
+    string client_id = 1;
+}
+
+message StatusRequest {}
+
+message StatusResponse {
+    bool is_running = 1;
+    uint32 connected_clients = 2;
+    float fps = 3;
+    string version = 4;
+}

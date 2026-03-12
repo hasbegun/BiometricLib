@@ -1,0 +1,12 @@
+host: "0.0.0.0"
+grpc_port: 50051
+websocket_port: 8080
+mqtt_port: 1883
+protocol: websocket
+max_clients: 10
+
+tls:
+  enabled: false
+  cert_path: ""
+  key_path: ""
+  ca_path: ""

@@ -1,0 +1,22 @@
+# Build artifacts
+build/
+
+# Version control
+.git/
+
+# ONNX models (large production models excluded; test stub included)
+# models/*.onnx
+
+# IDE and editor
+.cache/
+.vscode/
+.idea/
+
+# Documentation (not needed in container)
+*.md
+!README.md
+!models/README.md
+
+# OS files
+.DS_Store
+Thumbs.db

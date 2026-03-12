@@ -1,0 +1,21 @@
+# EAR sequence fixture: Single blink
+# Format: timestamp_ms,ear_value
+# Pattern: open -> close (200ms) -> open -> wait timeout
+0,0.32
+33,0.31
+66,0.30
+100,0.12
+133,0.10
+166,0.09
+200,0.10
+233,0.11
+266,0.10
+300,0.28
+333,0.30
+366,0.31
+400,0.30
+500,0.31
+600,0.30
+700,0.31
+800,0.30
+900,0.31

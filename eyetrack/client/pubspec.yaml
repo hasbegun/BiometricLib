@@ -1,0 +1,51 @@
+name: eyetrack
+description: "Real-time eye tracking, gaze estimation, and blink detection client."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+  # State management
+  flutter_riverpod: ^2.6.1
+
+  # Communication
+  grpc: ^4.0.1
+  protobuf: ^3.1.0
+  web_socket_channel: ^3.0.2
+  mqtt_client: ^10.6.0
+
+  # Camera
+  camera: ^0.11.0+2
+
+  # Protobuf support
+  fixnum: ^1.1.0
+  typed_data: ^1.4.0
+
+  # FFI
+  ffi: ^2.1.0
+
+  # Storage
+  shared_preferences: ^2.5.3
+
+  # UI
+  cupertino_icons: ^1.0.8
+  camera_macos: ^0.0.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  mockito: ^5.4.6
+  build_runner: ^2.4.15
+
+flutter:
+  generate: true
+  uses-material-design: true

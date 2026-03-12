@@ -1,0 +1,72 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "linux-release",
+      "displayName": "Linux Release",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_FLAGS": "-march=native",
+        "IRIS_ENABLE_TESTS": "ON",
+        "IRIS_ENABLE_BENCH": "ON"
+      }
+    },
+    {
+      "name": "linux-debug-sanitizers",
+      "displayName": "Linux Debug + ASan/UBSan",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/debug-san",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "IRIS_ENABLE_TESTS": "ON",
+        "IRIS_ENABLE_SANITIZERS": "ON"
+      }
+    },
+    {
+      "name": "linux-debug-tsan",
+      "displayName": "Linux Debug + TSan",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/debug-tsan",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "IRIS_ENABLE_TESTS": "ON",
+        "IRIS_ENABLE_TSAN": "ON"
+      }
+    },
+    {
+      "name": "linux-aarch64",
+      "displayName": "Linux ARM64",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/aarch64",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_FLAGS": "-march=armv8.2-a+crypto",
+        "IRIS_ENABLE_TESTS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "linux-release",
+      "configurePreset": "linux-release"
+    },
+    {
+      "name": "linux-debug-sanitizers",
+      "configurePreset": "linux-debug-sanitizers"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "linux-release",
+      "configurePreset": "linux-release",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "linux-debug-sanitizers",
+      "configurePreset": "linux-debug-sanitizers",
+      "output": { "outputOnFailure": true }
+    }
+  ]
+}

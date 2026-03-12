@@ -1,0 +1,8 @@
+camera_index: 0
+frame_width: 640
+frame_height: 480
+target_fps: 30
+mqtt_broker: localhost
+mqtt_port: 1883
+mqtt_topic: eyetrack/gaze
+headless: false

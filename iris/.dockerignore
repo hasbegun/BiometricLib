@@ -1,0 +1,7 @@
+build/
+.cache/
+*.o
+*.d
+.git
+comparison/python_results/
+comparison/cpp_results/

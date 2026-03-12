@@ -1,6 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+.venv/
+venv/
+.eggs/
+
+# Docker
+.env
+
+# Secrets
+secrets/
+*.pem
+*.key
+!*.pub
+
+# ONNX models (downloaded at build/runtime)
+*.onnx
+
+# Dataset images (too large for git)
+data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
 .DS_Store
-.project
-.cproject
-.vscode
-build/**
-apidoc/**
+Thumbs.db
+
+# Test / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+reports/
+
+# data and models
+data/**
+models/**
+
+# Staged libiris for Docker build
+iris-engine2/.libiris/
+
+# Legacy git artifacts
+legacy/**
+
+# Internal docs
+docs/internal/**
+
+**/build/**
+iris/comparison/cpp_results/
+iris/comparison/gallery/
+iris/comparison/fhe_verification/
+iris/comparison/python_results/
+*.log

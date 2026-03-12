@@ -1,0 +1,30 @@
+BasedOnStyle: Google
+Language: Cpp
+Standard: c++23
+IndentWidth: 4
+ColumnLimit: 100
+PointerAlignment: Left
+ReferenceAlignment: Left
+DerivePointerAlignment: false
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Empty
+BreakBeforeBraces: Attach
+SpaceAfterCStyleCast: false
+SpaceBeforeParens: ControlStatements
+SortIncludes: CaseInsensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^<eyetrack/'
+    Priority: 2
+  - Regex: '^<(opencv2|cv)/'
+    Priority: 3
+  - Regex: '^<'
+    Priority: 4
+  - Regex: '^"'
+    Priority: 1
+AlwaysBreakTemplateDeclarations: Yes
+PackConstructorInitializers: NextLine
+BinPackArguments: false
+BinPackParameters: false

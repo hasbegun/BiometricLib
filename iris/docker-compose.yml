@@ -1,0 +1,95 @@
+services:
+  dev:
+    build:
+      context: .
+      target: build
+    volumes:
+      - .:/src
+    working_dir: /src
+    command: /bin/bash
+
+  test:
+    build:
+      context: .
+      target: build
+    command: >
+      bash -c "cmake --build build --parallel $(nproc) &&
+               cd build && ctest --output-on-failure"
+
+  bench:
+    build:
+      context: .
+      target: build
+    command: >
+      bash -c "cmake --build build --parallel $(nproc) &&
+               ./build/tests/bench_matcher"
+
+  test-asan:
+    build:
+      context: .
+      target: build
+    command: >
+      bash -c "cmake -S . -B build-san -G Ninja -DCMAKE_BUILD_TYPE=Debug
+               -DIRIS_ENABLE_TESTS=ON -DIRIS_ENABLE_FHE=ON
+               -DIRIS_ENABLE_SANITIZERS=ON
+               -DONNXRUNTIME_ROOT=/opt/onnxruntime &&
+               cmake --build build-san --parallel $$(nproc) &&
+               cd build-san && ctest --output-on-failure"
+
+  test-tsan:
+    build:
+      context: .
+      target: build
+    command: >
+      bash -c "cmake -S . -B build-tsan -G Ninja -DCMAKE_BUILD_TYPE=Debug
+               -DIRIS_ENABLE_TESTS=ON -DIRIS_ENABLE_FHE=ON
+               -DIRIS_ENABLE_TSAN=ON
+               -DONNXRUNTIME_ROOT=/opt/onnxruntime &&
+               cmake --build build-tsan --parallel $$(nproc) &&
+               cd build-tsan && ctest --output-on-failure"
+
+  comparison:
+    build:
+      context: .
+      target: build
+    volumes:
+      - .:/src
+      - ../../data/Iris/CASIA1:/data/CASIA1:ro
+      - ./comparison/cpp_results:/output
+    working_dir: /src
+    command: ["bash", "-c", "cmake -S . -B /tmp/build-cmp -G Ninja -DCMAKE_BUILD_TYPE=Release '-DCMAKE_CXX_FLAGS=-march=native' -DIRIS_ENABLE_COMPARISON=ON -DIRIS_ENABLE_FHE=ON -DONNXRUNTIME_ROOT=/opt/onnxruntime && cmake --build /tmp/build-cmp --parallel $$(nproc) --target iris_comparison && /tmp/build-cmp/iris_comparison /src/pipeline.yaml /data/CASIA1 /output"]
+
+  fhe-comparison:
+    build:
+      context: .
+      target: build
+    volumes:
+      - ./comparison/cpp_results/templates:/data/templates:ro
+      - ./comparison/fhe_verification:/output
+    command: ["bash", "-c", "cmake -S . -B /tmp/build-fhe -G Ninja -DCMAKE_BUILD_TYPE=Release -DIRIS_ENABLE_FHE=ON -DIRIS_ENABLE_COMPARISON=ON -DONNXRUNTIME_ROOT=/opt/onnxruntime && cmake --build /tmp/build-fhe --parallel $$(nproc) --target fhe_comparison && /tmp/build-fhe/fhe_comparison /data/templates /output/fhe_scores.csv 20"]
+
+  visualize:
+    build:
+      context: .
+      target: build
+    volumes:
+      - ./comparison/cpp_results:/data/cpp_results:ro
+      - ./comparison/python_results:/data/python_results:ro
+      - ../../data/Iris/CASIA1:/data/CASIA1:ro
+      - ./comparison/gallery:/output
+    command: ["bash", "-c", "python3 comparison/visualize_pipeline.py --cpp-dir /data/cpp_results/templates --py-dir /data/python_results/templates --images /data/CASIA1 --output /output"]
+
+  analyze-fhe:
+    build:
+      context: .
+      target: build
+    volumes:
+      - ./comparison/fhe_verification:/data:ro
+      - ./comparison/fhe_verification:/output
+    command: ["bash", "-c", "python3 comparison/analyze_fhe_results.py /data/fhe_scores.csv /output"]
+
+  prod:
+    build:
+      context: .
+      target: runtime
+    read_only: true

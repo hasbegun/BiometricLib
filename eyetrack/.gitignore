@@ -1,0 +1,29 @@
+# Build artifacts
+build/
+*.o
+*.so
+*.a
+*.dylib
+
+# Large model files
+models/*.onnx
+models/*.dat
+
+# IDE and editor
+.cache/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+compile_commands.json
+
+# OS files
+.DS_Store
+Thumbs.db

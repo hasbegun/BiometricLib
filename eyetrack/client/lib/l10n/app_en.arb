@@ -1,0 +1,149 @@
+{
+  "@@locale": "en",
+  "appTitle": "EyeTrack",
+  "@appTitle": { "description": "Application title" },
+
+  "homeTitle": "Eye Tracking",
+  "@homeTitle": { "description": "Home screen title" },
+
+  "calibrate": "Calibrate",
+  "@calibrate": { "description": "Calibrate button label" },
+
+  "startTracking": "Start Tracking",
+  "@startTracking": { "description": "Start tracking button" },
+
+  "stopTracking": "Stop Tracking",
+  "@stopTracking": { "description": "Stop tracking button" },
+
+  "settings": "Settings",
+  "@settings": { "description": "Settings screen title" },
+
+  "serverUrl": "Server URL",
+  "@serverUrl": { "description": "Server URL setting label" },
+
+  "protocol": "Protocol",
+  "@protocol": { "description": "Protocol selection label" },
+
+  "protocolGrpc": "gRPC",
+  "@protocolGrpc": { "description": "gRPC protocol option" },
+
+  "protocolWebSocket": "WebSocket",
+  "@protocolWebSocket": { "description": "WebSocket protocol option" },
+
+  "protocolMqtt": "MQTT",
+  "@protocolMqtt": { "description": "MQTT protocol option" },
+
+  "connected": "Connected",
+  "@connected": { "description": "Connection status: connected" },
+
+  "disconnected": "Disconnected",
+  "@disconnected": { "description": "Connection status: disconnected" },
+
+  "connecting": "Connecting...",
+  "@connecting": { "description": "Connection status: connecting" },
+
+  "calibrationTitle": "Calibration",
+  "@calibrationTitle": { "description": "Calibration screen title" },
+
+  "calibrationInstructions": "Look at each point as it appears on the screen.",
+  "@calibrationInstructions": { "description": "Calibration instructions" },
+
+  "calibrationComplete": "Calibration complete!",
+  "@calibrationComplete": { "description": "Calibration success message" },
+
+  "calibrationFailed": "Calibration failed. Please try again.",
+  "@calibrationFailed": { "description": "Calibration failure message" },
+
+  "accuracy": "Accuracy: {value}%",
+  "@accuracy": {
+    "description": "Accuracy display",
+    "placeholders": { "value": { "type": "String" } }
+  },
+
+  "fps": "FPS: {value}",
+  "@fps": {
+    "description": "Frames per second display",
+    "placeholders": { "value": { "type": "String" } }
+  },
+
+  "latency": "Latency: {value}ms",
+  "@latency": {
+    "description": "Latency display",
+    "placeholders": { "value": { "type": "String" } }
+  },
+
+  "blinkSingle": "Single Blink",
+  "@blinkSingle": { "description": "Single blink event" },
+
+  "blinkDouble": "Double Blink",
+  "@blinkDouble": { "description": "Double blink event" },
+
+  "blinkLong": "Long Blink",
+  "@blinkLong": { "description": "Long blink event" },
+
+  "debugMode": "Debug Mode",
+  "@debugMode": { "description": "Debug mode toggle label" },
+
+  "earThreshold": "EAR Threshold",
+  "@earThreshold": { "description": "Eye aspect ratio threshold setting" },
+
+  "cameraPermissionRequired": "Camera permission is required for eye tracking.",
+  "@cameraPermissionRequired": { "description": "Camera permission message" },
+
+  "noCameraAvailable": "No camera available on this device.",
+  "@noCameraAvailable": { "description": "No camera fallback message" },
+
+  "language": "Language",
+  "@language": { "description": "Language setting label" },
+
+  "english": "English",
+  "@english": { "description": "English language option" },
+
+  "korean": "Korean",
+  "@korean": { "description": "Korean language option" },
+
+  "cancel": "Cancel",
+  "@cancel": { "description": "Cancel button" },
+
+  "save": "Save",
+  "@save": { "description": "Save button" },
+
+  "error": "Error",
+  "@error": { "description": "Error title" },
+
+  "retry": "Retry",
+  "@retry": { "description": "Retry button" },
+
+  "connectionError": "Could not connect to the server.",
+  "@connectionError": { "description": "Connection error message" },
+
+  "port": "Port",
+  "@port": { "description": "Server port setting label" },
+
+  "profile": "Profile",
+  "@profile": { "description": "Profile setting label" },
+
+  "addProfile": "Add Profile",
+  "@addProfile": { "description": "Add profile button" },
+
+  "deleteProfile": "Delete Profile",
+  "@deleteProfile": { "description": "Delete profile button" },
+
+  "profileName": "Profile Name",
+  "@profileName": { "description": "Profile name input label" },
+
+  "add": "Add",
+  "@add": { "description": "Add button" },
+
+  "delete": "Delete",
+  "@delete": { "description": "Delete button" },
+
+  "gazeTile": "Tile: {number}",
+  "@gazeTile": {
+    "description": "Currently gazed tile number",
+    "placeholders": { "number": { "type": "int" } }
+  },
+
+  "noGaze": "No gaze detected",
+  "@noGaze": { "description": "Shown when not tracking or no gaze" }
+}
